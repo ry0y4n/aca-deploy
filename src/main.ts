@@ -69,9 +69,15 @@ async function main() {
     }
 
     console.log('d')
-    let networkConfig = {
-      "dapr": daprConfig
-      // "ingress": ingresConfig
+    let networkConfig: {
+      dapr: object,
+      ingress?: object
+    } = {
+      dapr: daprConfig,
+      ingress: ingresConfig
+    }
+    if (taskParams.ingressExternal == false) {
+      delete networkConfig.ingress
     }
 
     console.log('e')
