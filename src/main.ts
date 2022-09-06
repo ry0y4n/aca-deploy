@@ -29,6 +29,10 @@ async function main() {
     const client = new ContainerAppsAPIClient(credential, taskParams.subscriptionId);
 
     // TBD: Remove key when there is key without value
+    console.log('a')
+    console.log(taskParams.daprAppPort)
+    console.log(taskParams.daprAppProtocol)
+    console.log(taskParams.daprEnabled)
     const daprConfig = {
       appPort: taskParams.daprAppPort, 
       appProtocol: taskParams.daprAppProtocol, 
