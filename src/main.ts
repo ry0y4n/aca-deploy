@@ -70,8 +70,8 @@ async function main() {
 
     console.log('d')
     let networkConfig = {
-      "dapr": daprConfig,
-      "ingress": ingresConfig
+      "dapr": daprConfig
+      // "ingress": ingresConfig
     }
 
     console.log('e')
