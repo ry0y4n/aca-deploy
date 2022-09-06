@@ -23,11 +23,11 @@ jobs:
     - name: 'Deploy to Azure Container Apps'
       uses: ./
       with:
-        resource-group: sample-rg
-        name: yuhattor-container3
+        resource-group: aca-sample-rg
+        name: momosuke-container1
         location: 'East US'
         subscription-id: 'a4deccb1-a1f6-40cb-a923-f55a7d22c32d'
-        managed-environment-name: 'my-container-env'
+        managed-environment-name: 'momosuke-container-env'
         dapr-app-port: 3000
         dapr-app-protocol: 'http'
         dapr-enabled: true
