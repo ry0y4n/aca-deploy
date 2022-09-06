@@ -25,7 +25,7 @@ jobs:
       uses: ./
       with:
         resource-group: aca-sample-rg
-        name: momosuke-container1
+        name: momosuke-container2
         location: 'East US'
         subscription-id: 'a4deccb1-a1f6-40cb-a923-f55a7d22c32d'
         managed-environment-name: 'momosuke-container-env'
