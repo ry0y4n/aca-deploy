@@ -57,7 +57,8 @@ export class TaskParameters {
         console.log("c")
         console.log(ingressCustomDomainsJsonString)
         console.log(typeof ingressCustomDomainsJsonString)
-        this._ingressCustomDomains = JSON.parse(ingressCustomDomainsJsonString) 
+        // this._ingressCustomDomains = JSON.parse(ingressCustomDomainsJsonString) 
+        this._ingressCustomDomains = []
         console.log("d")
         let ingressTrafficJsonString = core.getInput('ingress-traffic-json', { required: false});
         console.log("e")
