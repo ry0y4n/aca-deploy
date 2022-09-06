@@ -33,13 +33,14 @@ async function main() {
     console.log(taskParams.daprAppPort)
     console.log(taskParams.daprAppProtocol)
     console.log(taskParams.daprEnabled)
-    const daprConfig = {
-      appPort: isNaN(taskParams.daprAppPort) ? 3000 : taskParams.daprAppPort, 
-      appProtocol: taskParams.daprAppProtocol, 
-      enabled: taskParams.daprEnabled
-    };
-    console.log(daprConfig)
+    // const daprConfig = {
+    //   appPort: isNaN(taskParams.daprAppPort) ? 3000 : taskParams.daprAppPort, 
+    //   appProtocol: taskParams.daprAppProtocol, 
+    //   enabled: taskParams.daprEnabled
+    // };
+    // console.log(daprConfig)
 
+    console.log('b')
     // TBD: Remove key when there is key without value
     const ingresConfig = {
       external: taskParams.ingressExternal, 
@@ -48,6 +49,7 @@ async function main() {
       // customDomains: taskParams.ingressCustomDomains
     } 
 
+    console.log('c')
     let scaleRules = taskParams.scaleRules
     // TBD: Remove key when there is key without value
     const scaleConfig = {
@@ -56,14 +58,17 @@ async function main() {
       rules: scaleRules 
     }
 
+    console.log('d')
     let networkConfig = {
-      "dapr": daprConfig,
+      // "dapr": daprConfig,
       "ingress": ingresConfig
     }
 
+    console.log('e')
     // TBD: Find a way to get a value instead of json
     const containersConfig = taskParams.containersConfig
 
+    console.log('f')
     const containerAppEnvelope: ContainerApp = {
       configuration: networkConfig,
       location: taskParams.location,
