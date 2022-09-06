@@ -65,8 +65,8 @@ async function main() {
       managedEnvironmentId:
         `/subscriptions/${subscriptionId}/resourceGroups/${taskParams.resourceGroup}/providers/Microsoft.App/managedEnvironments/${taskParams.managedEnvironmentName}`,
       template: {
-        containers: containersConfig,
-        scale: scaleConfig
+        containers: containersConfig
+        // scale: scaleConfig
       }
     };
 

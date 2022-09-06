@@ -33,7 +33,6 @@ export class TaskParameters {
 
     private constructor() {
 
-        console.log('Required basic parameters')
         // Required basic parameters
         this._subscriptionId = core.getInput('subscription-id',{ required: true } );
         this._resourceGroup = core.getInput('resource-group', { required: true });
@@ -41,13 +40,11 @@ export class TaskParameters {
         this._location = core.getInput('location', { required: true });
         this._managedEnvironmentName = core.getInput('managed-environment-name', { required: true });
 
-        console.log('Optional Dapr parameters')
         // Optional Dapr parameters
         this._daprAppPort = parseInt(core.getInput('dapr-app-port', { required: false }));
         this._daprAppProtocol = core.getInput('dapr-app-protocol', { required: false });
         this._daprEnabled = core.getInput('dapr-enabled', { required: false }) == "true";
 
-        console.log('Optional ingress parameters')
         // Optional ingress parameters
         this._ingressExternal = core.getInput('ingress-external', { required: false }) == "true";
         this._ingressTargetPort = parseInt(core.getInput('ingress-target-port', { required: false }));
@@ -56,14 +53,12 @@ export class TaskParameters {
         let ingressTrafficJsonString = core.getInput('ingress-traffic-json', { required: false});
         this._ingressTraffic = ingressTrafficJsonString == "" ? [] : JSON.parse(ingressTrafficJsonString)
 
-        console.log('Optional scale parameters')
         // Optional scale parameters
         this._scaleMaxReplicas = parseInt(core.getInput('scale-max-replicas', { required: false }));
         this._scaleMinReplicas = parseInt(core.getInput('scale-min-replicas', { required: false }));
         let scaleRulesJsonString = core.getInput('scale-rules-json', { required: false });
         this._scaleRules = scaleRulesJsonString == "" ? [] : JSON.parse(scaleRulesJsonString)
 
-        console.log('Required container config parameters')
         // Required container config parameters
         let containerConfigJsonString = core.getInput('containers-config-json', { required: true });
         this._containersConfig = JSON.parse(containerConfigJsonString)
