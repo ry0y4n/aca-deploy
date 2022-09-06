@@ -30,38 +30,34 @@ async function main() {
 
     // TBD: Remove key when there is key without value
     console.log('a')
-    console.log(taskParams.daprAppPort)
-    console.log(taskParams.daprAppProtocol)
-    console.log(taskParams.daprEnabled)
-    // const daprConfig = {
-    //   appPort: isNaN(taskParams.daprAppPort) ? 3000 : taskParams.daprAppPort, 
-    //   appProtocol: taskParams.daprAppProtocol, 
-    //   enabled: taskParams.daprEnabled
-    // };
     const daprConfig: {
       appPort?: number,
       appProtocol?: string,
       enabled: boolean
     } = {
-      // appPort: isNaN(taskParams.daprAppPort) ? 0 : taskParams.daprAppPort, 
       appPort: taskParams.daprAppPort, 
       appProtocol: taskParams.daprAppProtocol, 
       enabled: taskParams.daprEnabled
-    };
+    }
     if (taskParams.daprEnabled == false) {
       delete daprConfig.appPort
       delete daprConfig.appProtocol
     }
-    console.log(daprConfig)
 
     console.log('b')
     // TBD: Remove key when there is key without value
-    const ingresConfig = {
+    const ingresConfig: {
+      external: boolean,
+      targetPort?: number
+    } = {
       external: taskParams.ingressExternal, 
       targetPort: taskParams.ingressTargetPort, 
       // traffic: taskParams.ingressTraffic, 
       // customDomains: taskParams.ingressCustomDomains
     } 
+    if (taskParams.ingressExternal == false) {
+      delete ingresConfig.targetPort
+    }
 
     console.log('c')
     let scaleRules = taskParams.scaleRules
