@@ -49,15 +49,16 @@ export class TaskParameters {
 
         console.log('Optional ingress parameters')
         // Optional ingress parameters
-        // console.log(core.getInput('ingress-external', { required: false }))
-        // console.log(core.getInput('ingress-external', { required: false })=="true")
-        // console.log(core.getBooleanInput('ingress-external', { required: false }))
-        console.log(core.getBooleanInput('ingress-external', { required: false })==true)
         this._ingressExternal = core.getInput('ingress-external', { required: false }) == "true";
+        console.log("a")
         this._ingressTargetPort = parseInt(core.getInput('ingress-target-port', { required: false }));
+        console.log("b")
         let ingressCustomDomainsJsonString = core.getInput('ingress-custom-domains-json', { required: false });
+        console.log("c")
         this._ingressCustomDomains = JSON.parse(ingressCustomDomainsJsonString) 
+        console.log("d")
         let ingressTrafficJsonString = core.getInput('ingress-traffic-json', { required: false});
+        console.log("e")
         this._ingressTraffic = JSON.parse(ingressTrafficJsonString)
 
         console.log('Optional scale parameters')
