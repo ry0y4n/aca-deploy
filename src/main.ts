@@ -34,7 +34,7 @@ async function main() {
     console.log(taskParams.daprAppProtocol)
     console.log(taskParams.daprEnabled)
     const daprConfig = {
-      appPort: isNaN(taskParams.daprAppPort) ? 0 : taskParams.daprAppPort, 
+      appPort: isNaN(taskParams.daprAppPort) ? 3000 : taskParams.daprAppPort, 
       appProtocol: taskParams.daprAppProtocol, 
       enabled: taskParams.daprEnabled
     };
