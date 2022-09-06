@@ -43,12 +43,15 @@ async function main() {
       appProtocol?: string,
       enabled: boolean
     } = {
-      appPort: isNaN(taskParams.daprAppPort) ? 0 : taskParams.daprAppPort, 
+      // appPort: isNaN(taskParams.daprAppPort) ? 0 : taskParams.daprAppPort, 
+      appPort: taskParams.daprAppPort, 
       appProtocol: taskParams.daprAppProtocol, 
       enabled: taskParams.daprEnabled
     };
-    // delete daprConfig.appPort
-    // delete daprConfig.appProtocol
+    if (taskParams.daprEnabled == false) {
+      delete daprConfig.appPort
+      delete daprConfig.appProtocol
+    }
     console.log(daprConfig)
 
     console.log('b')
