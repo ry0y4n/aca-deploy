@@ -1,7 +1,7 @@
 # momosuke ver.
 on: [push, pull_request]
   
-name: Container Deployment Sample Workflow
+name: Container Deployment Sample Workflow momosuke ver.
 
 jobs:
   build-and-deploy:
