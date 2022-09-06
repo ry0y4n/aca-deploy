@@ -46,8 +46,10 @@ async function main() {
     let scaleRules = taskParams.scaleRules
     // TBD: Remove key when there is key without value
     const scaleConfig = {
-      maxReplicas: taskParams.scaleMaxReplicas, 
-      minReplicas: taskParams.scaleMinReplicas, 
+      // maxReplicas: taskParams.scaleMaxReplicas, 
+      // minReplicas: taskParams.scaleMinReplicas, 
+      maxReplicas: 5, 
+      minReplicas: 1, 
       rules: scaleRules 
     }
 
@@ -65,8 +67,8 @@ async function main() {
       managedEnvironmentId:
         `/subscriptions/${subscriptionId}/resourceGroups/${taskParams.resourceGroup}/providers/Microsoft.App/managedEnvironments/${taskParams.managedEnvironmentName}`,
       template: {
-        containers: containersConfig
-        // scale: scaleConfig
+        containers: containersConfig,
+        scale: scaleConfig
       }
     };
 
