@@ -55,14 +55,11 @@ export class TaskParameters {
         console.log("b")
         let ingressCustomDomainsJsonString = core.getInput('ingress-custom-domains-json', { required: false });
         console.log("c")
-        console.log(ingressCustomDomainsJsonString)
-        console.log(typeof ingressCustomDomainsJsonString)
-        // this._ingressCustomDomains = JSON.parse(ingressCustomDomainsJsonString) 
-        this._ingressCustomDomains = []
+        this._ingressCustomDomains = ingressCustomDomainsJsonString == "" ? [] : JSON.parse(ingressCustomDomainsJsonString)
         console.log("d")
         let ingressTrafficJsonString = core.getInput('ingress-traffic-json', { required: false});
         console.log("e")
-        this._ingressTraffic = JSON.parse(ingressTrafficJsonString)
+        this._ingressTraffic = ingressTrafficJsonString == "" ? [] : JSON.parse(ingressTrafficJsonString)
 
         console.log('Optional scale parameters')
         // Optional scale parameters
