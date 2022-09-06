@@ -50,15 +50,10 @@ export class TaskParameters {
         console.log('Optional ingress parameters')
         // Optional ingress parameters
         this._ingressExternal = core.getInput('ingress-external', { required: false }) == "true";
-        console.log("a")
         this._ingressTargetPort = parseInt(core.getInput('ingress-target-port', { required: false }));
-        console.log("b")
         let ingressCustomDomainsJsonString = core.getInput('ingress-custom-domains-json', { required: false });
-        console.log("c")
         this._ingressCustomDomains = ingressCustomDomainsJsonString == "" ? [] : JSON.parse(ingressCustomDomainsJsonString)
-        console.log("d")
         let ingressTrafficJsonString = core.getInput('ingress-traffic-json', { required: false});
-        console.log("e")
         this._ingressTraffic = ingressTrafficJsonString == "" ? [] : JSON.parse(ingressTrafficJsonString)
 
         console.log('Optional scale parameters')
@@ -66,7 +61,7 @@ export class TaskParameters {
         this._scaleMaxReplicas = parseInt(core.getInput('scale-max-replicas', { required: false }));
         this._scaleMinReplicas = parseInt(core.getInput('scale-min-replicas', { required: false }));
         let scaleRulesJsonString = core.getInput('scale-rules-json', { required: false });
-        this._scaleRules = JSON.parse(scaleRulesJsonString)
+        this._scaleRules = scaleRulesJsonString == "" ? [] : JSON.parse(scaleRulesJsonString)
 
         console.log('Required container config parameters')
         // Required container config parameters
