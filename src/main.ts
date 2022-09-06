@@ -38,7 +38,18 @@ async function main() {
     //   appProtocol: taskParams.daprAppProtocol, 
     //   enabled: taskParams.daprEnabled
     // };
-    // console.log(daprConfig)
+    const daprConfig: {
+      appPort?: number,
+      appProtocol?: string,
+      enabled: boolean
+    } = {
+      appPort: isNaN(taskParams.daprAppPort) ? 0 : taskParams.daprAppPort, 
+      appProtocol: taskParams.daprAppProtocol, 
+      enabled: taskParams.daprEnabled
+    };
+    delete daprConfig.appPort
+    delete daprConfig.appProtocol
+    console.log(daprConfig)
 
     console.log('b')
     // TBD: Remove key when there is key without value
@@ -60,7 +71,7 @@ async function main() {
 
     console.log('d')
     let networkConfig = {
-      // "dapr": daprConfig,
+      "dapr": daprConfig,
       "ingress": ingresConfig
     }
 
