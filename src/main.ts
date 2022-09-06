@@ -18,8 +18,9 @@ async function main() {
     let actionName = 'DeployAzureContainerApp';
     let userAgentString = (!!prefix ? `${prefix}+` : '') + `GITHUBACTIONS_${actionName}_${usrAgentRepo}`;
     core.exportVariable('AZURE_HTTP_USER_AGENT', userAgentString);
-
+    console.log('before getTaskParams()')
     var taskParams = TaskParameters.getTaskParams();
+    console.log('after getTaskParams()')
     let credential: TokenCredential = new DefaultAzureCredential()
 
     // TBD: Need to get subscriptionId not from taskParams, but from credential.
