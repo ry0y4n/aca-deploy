@@ -34,6 +34,7 @@ async function main() {
       appProtocol: taskParams.daprAppProtocol, 
       enabled: taskParams.daprEnabled
     };
+    console.log(daprConfig)
 
     // TBD: Remove key when there is key without value
     const ingresConfig = {
@@ -46,10 +47,8 @@ async function main() {
     let scaleRules = taskParams.scaleRules
     // TBD: Remove key when there is key without value
     const scaleConfig = {
-      // maxReplicas: taskParams.scaleMaxReplicas, 
-      // minReplicas: taskParams.scaleMinReplicas, 
-      maxReplicas: 5, 
-      minReplicas: 1, 
+      maxReplicas: taskParams.scaleMaxReplicas, 
+      minReplicas: taskParams.scaleMinReplicas, 
       rules: scaleRules 
     }
 
