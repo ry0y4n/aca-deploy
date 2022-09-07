@@ -17,9 +17,7 @@ async function main() {
     let actionName = 'DeployAzureContainerApp';
     let userAgentString = (!!prefix ? `${prefix}+` : '') + `GITHUBACTIONS_${actionName}_${usrAgentRepo}`;
     core.exportVariable('AZURE_HTTP_USER_AGENT', userAgentString);
-    console.log('before getTaskParams()')
     var taskParams = TaskParameters.getTaskParams();
-    console.log('after getTaskParams()')
     let credential: TokenCredential = new DefaultAzureCredential()
 
     // TBD: Need to get subscriptionId not from taskParams, but from credential.
@@ -29,7 +27,6 @@ async function main() {
     const client = new ContainerAppsAPIClient(credential, taskParams.subscriptionId);
 
     // TBD: Remove key when there is key without value
-    console.log('a')
     const daprConfig: {
       appPort?: number,
       appProtocol?: string,
@@ -44,7 +41,6 @@ async function main() {
       delete daprConfig.appProtocol
     }
 
-    console.log('b')
     // TBD: Remove key when there is key without value
     const ingresConfig: {
       external: boolean,
@@ -59,7 +55,6 @@ async function main() {
       delete ingresConfig.targetPort
     }
 
-    console.log('c')
     let scaleRules = taskParams.scaleRules
     // TBD: Remove key when there is key without value
     const scaleConfig = {
@@ -68,7 +63,6 @@ async function main() {
       rules: scaleRules 
     }
 
-    console.log('d')
     let networkConfig: {
       dapr: object,
       ingress?: object
@@ -80,11 +74,9 @@ async function main() {
       delete networkConfig.ingress
     }
 
-    console.log('e')
     // TBD: Find a way to get a value instead of json
     const containersConfig = taskParams.containersConfig
 
-    console.log('f')
     const containerAppEnvelope: ContainerApp = {
       configuration: networkConfig,
       location: taskParams.location,
