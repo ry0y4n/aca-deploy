@@ -59,9 +59,9 @@ async function main() {
     let scaleRules = taskParams.scaleRules
     // TBD: Remove key when there is key without value
     const scaleConfig = {
-      maxReplicas: taskParams.scaleMaxReplicas, 
-      minReplicas: taskParams.scaleMinReplicas, 
-      // rules: scaleRules 
+      // maxReplicas: taskParams.scaleMaxReplicas, 
+      // minReplicas: taskParams.scaleMinReplicas, 
+      rules: scaleRules 
     }
 
     let networkConfig: {
