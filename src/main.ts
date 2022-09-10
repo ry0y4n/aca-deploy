@@ -52,12 +52,13 @@ async function main() {
     } = {
       external: taskParams.ingressExternal, 
       targetPort: taskParams.ingressTargetPort, 
-      // traffic: taskParams.ingressTraffic, 
+      traffic: taskParams.ingressTraffic, 
       customDomains: taskParams.ingressCustomDomains
     }
-    // if (!taskParams.ingressTraffic) {
-    //   delete ingresConfig.traffic
-    // }
+    console.log(taskParams.ingressTraffic)
+    if (taskParams.ingressTraffic.length == 0) {
+      delete ingresConfig.traffic
+    }
 
     let scaleRules = taskParams.scaleRules
     // TBD: Remove key when there is key without value
