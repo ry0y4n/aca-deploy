@@ -81,11 +81,11 @@ async function main() {
       configuration: networkConfig,
       location: taskParams.location,
       managedEnvironmentId:
-        `/subscriptions/${subscriptionId}/resourceGroups/${taskParams.resourceGroup}/providers/Microsoft.App/managedEnvironments/${taskParams.managedEnvironmentName}`
-      // template: {
-      //   containers: containersConfig
-      //   // scale: scaleConfig
-      // }
+        `/subscriptions/${subscriptionId}/resourceGroups/${taskParams.resourceGroup}/providers/Microsoft.App/managedEnvironments/${taskParams.managedEnvironmentName}`,
+      template: {
+        containers: containersConfig
+        // scale: scaleConfig
+      }
     };
 
     console.log("Deployment Step Started");
