@@ -44,11 +44,19 @@ async function main() {
     }
 
     // TBD: Remove key when there is key without value
-    const ingresConfig = {
+    const ingresConfig: {
+      external: boolean,
+      targetPort?: number,
+      traffic?: any[],
+      customDomains?: any[]
+    } = {
       external: taskParams.ingressExternal, 
       targetPort: taskParams.ingressTargetPort, 
       traffic: taskParams.ingressTraffic, 
       customDomains: taskParams.ingressCustomDomains
+    }
+    if (taskParams.ingressTraffic == []) {
+      delete ingresConfig.traffic
     }
 
     let scaleRules = taskParams.scaleRules
