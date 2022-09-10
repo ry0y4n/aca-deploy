@@ -32,8 +32,8 @@ jobs:
         # dapr-app-port: 3000
         # dapr-app-protocol: 'http'
         # dapr-enabled: false
-        ingress-external: false
-        ingress-target-port: 3000
+        # ingress-external: false
+        # ingress-target-port: 3000
         ingress-custom-domains-json: |
           [
           ]
