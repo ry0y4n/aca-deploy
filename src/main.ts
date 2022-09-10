@@ -61,7 +61,7 @@ async function main() {
     const scaleConfig = {
       maxReplicas: taskParams.scaleMaxReplicas, 
       minReplicas: taskParams.scaleMinReplicas, 
-      rules: scaleRules 
+      // rules: scaleRules 
     }
 
     let networkConfig: {
