@@ -36,6 +36,8 @@ async function main() {
       appProtocol: taskParams.daprAppProtocol, 
       enabled: taskParams.daprEnabled
     }
+    console.log(taskParams.daprAppPort)
+    console.log(taskParams.daprAppProtocol)
     // if (taskParams.daprEnabled == false) {
     delete daprConfig.appPort
     delete daprConfig.appProtocol
