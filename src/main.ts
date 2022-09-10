@@ -36,12 +36,12 @@ async function main() {
       appProtocol: taskParams.daprAppProtocol, 
       enabled: taskParams.daprEnabled
     }
-    console.log(taskParams.daprAppPort)
-    console.log(taskParams.daprAppProtocol)
-    // if (taskParams.daprEnabled == false) {
-    delete daprConfig.appPort
-    delete daprConfig.appProtocol
-    // }
+    if (isNaN(taskParams.daprAppPort)) {
+      delete daprConfig.appPort
+    }
+    if (taskParams.daprAppProtocol == "") {
+      delete daprConfig.appProtocol
+    }
 
     // TBD: Remove key when there is key without value
     const ingresConfig: {
