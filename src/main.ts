@@ -44,12 +44,7 @@ async function main() {
     }
 
     // TBD: Remove key when there is key without value
-    const ingresConfig: {
-      external: boolean,
-      targetPort?: number,
-      traffic: any[],
-      customDomains: any[]
-    } = {
+    const ingresConfig = {
       external: taskParams.ingressExternal, 
       targetPort: taskParams.ingressTargetPort, 
       traffic: taskParams.ingressTraffic, 
@@ -59,7 +54,7 @@ async function main() {
     let scaleRules = taskParams.scaleRules
     // TBD: Remove key when there is key without value
     const scaleConfig = {
-      // maxReplicas: taskParams.scaleMaxReplicas, 
+      maxReplicas: taskParams.scaleMaxReplicas, 
       minReplicas: taskParams.scaleMinReplicas, 
       rules: scaleRules 
     }
