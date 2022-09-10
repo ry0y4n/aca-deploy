@@ -55,14 +55,17 @@ async function main() {
       traffic: taskParams.ingressTraffic, 
       customDomains: taskParams.ingressCustomDomains
     }
-    console.log(taskParams.ingressTraffic)
     if (taskParams.ingressTraffic.length == 0) {
       delete ingresConfig.traffic
     }
 
     let scaleRules = taskParams.scaleRules
     // TBD: Remove key when there is key without value
-    const scaleConfig = {
+    const scaleConfig: {
+      maxReplicas: number,
+      minReplicas: number,
+      rules: any[]
+    } = {
       maxReplicas: taskParams.scaleMaxReplicas, 
       minReplicas: taskParams.scaleMinReplicas, 
       rules: scaleRules 
