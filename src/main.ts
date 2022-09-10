@@ -55,7 +55,7 @@ async function main() {
       traffic: taskParams.ingressTraffic, 
       customDomains: taskParams.ingressCustomDomains
     }
-    if (taskParams.ingressTraffic == []) {
+    if (!taskParams.ingressTraffic) {
       delete ingresConfig.traffic
     }
 
