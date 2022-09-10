@@ -29,9 +29,9 @@ jobs:
         location: 'East US'
         subscription-id: 'a4deccb1-a1f6-40cb-a923-f55a7d22c32d'
         managed-environment-name: 'momosuke-container-env'
-        # dapr-app-port: 3000
-        # dapr-app-protocol: 'http'
-        # dapr-enabled: true
+        dapr-app-port: 3000
+        dapr-app-protocol: 'http'
+        dapr-enabled: true
         ingress-external: true
         ingress-target-port: 3000
         ingress-custom-domains-json: |
