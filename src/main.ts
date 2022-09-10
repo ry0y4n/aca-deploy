@@ -72,6 +72,9 @@ async function main() {
       dapr: daprConfig,
       ingress: ingresConfig
     }
+    if (taskParams.ingressExternal == false) {
+      delete networkConfig.ingress
+    }
 
     // TBD: Find a way to get a value instead of json
     const containersConfig = taskParams.containersConfig
