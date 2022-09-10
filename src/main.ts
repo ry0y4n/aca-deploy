@@ -36,10 +36,10 @@ async function main() {
       appProtocol: taskParams.daprAppProtocol, 
       enabled: taskParams.daprEnabled
     }
-    if (taskParams.daprEnabled == false) {
-      delete daprConfig.appPort
-      delete daprConfig.appProtocol
-    }
+    // if (taskParams.daprEnabled == false) {
+    delete daprConfig.appPort
+    delete daprConfig.appProtocol
+    // }
 
     // TBD: Remove key when there is key without value
     const ingresConfig: {
