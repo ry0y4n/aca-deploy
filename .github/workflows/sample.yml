@@ -31,8 +31,8 @@ jobs:
         managed-environment-name: 'momosuke-container-env'
         # dapr-app-port: 3000
         # dapr-app-protocol: 'http'
-        dapr-enabled: true
-        ingress-external: true
+        # dapr-enabled: false
+        ingress-external: false
         ingress-target-port: 3000
         ingress-custom-domains-json: |
           [
@@ -45,17 +45,17 @@ jobs:
         #       "certificateId": "/subscriptions/<SubscriptionId>/resourceGroups/<ResourceGroupName>/providers/Microsoft.App/managedEnvironments/<ManagedEnvironmentName>/certificates/<CertificateName>"
         #     }
         #   ]
-        ingress-traffic-json: |
-          [
-          ]
         # ingress-traffic-json: |
-        #   [ 
-        #     { 
-        #       "label": "production", 
-        #       "revisionName": "yuhattor-container3--qpxyrnn", 
-        #       "weight": 100 
-        #     } 
+        #   [
         #   ]
+        ingress-traffic-json: |
+          [ 
+            { 
+              "label": "production", 
+              "revisionName": "yuhattor-container3--qpxyrnn", 
+              "weight": 100 
+            } 
+          ]
         scale-max-replicas: 5
         scale-min-replicas: 1
         scale-rules-json: |

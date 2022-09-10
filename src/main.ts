@@ -46,15 +46,14 @@ async function main() {
     // TBD: Remove key when there is key without value
     const ingresConfig: {
       external: boolean,
-      targetPort?: number
+      targetPort?: number,
+      traffic: any[],
+      customDomains: any[]
     } = {
       external: taskParams.ingressExternal, 
       targetPort: taskParams.ingressTargetPort, 
-      // traffic: taskParams.ingressTraffic, 
-      // customDomains: taskParams.ingressCustomDomains
-    } 
-    if (taskParams.ingressExternal == false) {
-      delete ingresConfig.targetPort
+      traffic: taskParams.ingressTraffic, 
+      customDomains: taskParams.ingressCustomDomains
     }
 
     let scaleRules = taskParams.scaleRules
@@ -85,8 +84,8 @@ async function main() {
       managedEnvironmentId:
         `/subscriptions/${subscriptionId}/resourceGroups/${taskParams.resourceGroup}/providers/Microsoft.App/managedEnvironments/${taskParams.managedEnvironmentName}`,
       template: {
-        containers: containersConfig
-        // scale: scaleConfig
+        containers: containersConfig,
+        scale: scaleConfig
       }
     };
 
