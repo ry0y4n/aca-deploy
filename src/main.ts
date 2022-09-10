@@ -44,23 +44,17 @@ async function main() {
     }
 
     // TBD: Remove key when there is key without value
-    // const ingresConfig: {
-    //   external: boolean,
-    //   targetPort?: number
-    // } = {
-    //   external: taskParams.ingressExternal, 
-    //   targetPort: taskParams.ingressTargetPort, 
-    //   // traffic: taskParams.ingressTraffic, 
-    //   // customDomains: taskParams.ingressCustomDomains
-    // } 
-    // if (taskParams.ingressExternal == false) {
-    //   delete ingresConfig.targetPort
-    // }
-    const ingresConfig = {
+    const ingresConfig: {
+      external: boolean,
+      targetPort?: number
+    } = {
       external: taskParams.ingressExternal, 
       targetPort: taskParams.ingressTargetPort, 
       // traffic: taskParams.ingressTraffic, 
       // customDomains: taskParams.ingressCustomDomains
+    } 
+    if (taskParams.ingressExternal == false) {
+      delete ingresConfig.targetPort
     }
 
     let scaleRules = taskParams.scaleRules
