@@ -62,6 +62,8 @@ async function main() {
       // traffic: taskParams.ingressTraffic, 
       // customDomains: taskParams.ingressCustomDomains
     }
+    console.log(taskParams.ingressExternal)
+    console.log(taskParams.ingressTargetPort)
 
     let scaleRules = taskParams.scaleRules
     // TBD: Remove key when there is key without value
