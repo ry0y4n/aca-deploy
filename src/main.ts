@@ -27,24 +27,19 @@ async function main() {
     const client = new ContainerAppsAPIClient(credential, taskParams.subscriptionId);
 
     // TBD: Remove key when there is key without value
-    // const daprConfig: {
-    //   appPort?: number,
-    //   appProtocol?: string,
-    //   enabled: boolean
-    // } = {
-    //   appPort: taskParams.daprAppPort, 
-    //   appProtocol: taskParams.daprAppProtocol, 
-    //   enabled: taskParams.daprEnabled
-    // }
-    // if (taskParams.daprEnabled == false) {
-    //   delete daprConfig.appPort
-    //   delete daprConfig.appProtocol
-    // }
-    const daprConfig = {
+    const daprConfig: {
+      appPort?: number,
+      appProtocol?: string,
+      enabled: boolean
+    } = {
       appPort: taskParams.daprAppPort, 
       appProtocol: taskParams.daprAppProtocol, 
       enabled: taskParams.daprEnabled
-    };
+    }
+    if (taskParams.daprEnabled == false) {
+      delete daprConfig.appPort
+      delete daprConfig.appProtocol
+    }
 
     // TBD: Remove key when there is key without value
     const ingresConfig: {
