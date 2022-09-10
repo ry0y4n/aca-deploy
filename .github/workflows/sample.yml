@@ -45,9 +45,9 @@ jobs:
         #       "certificateId": "/subscriptions/<SubscriptionId>/resourceGroups/<ResourceGroupName>/providers/Microsoft.App/managedEnvironments/<ManagedEnvironmentName>/certificates/<CertificateName>"
         #     }
         #   ]
-        ingress-traffic-json: |
-          [
-          ]
+        # ingress-traffic-json: |
+        #   [
+        #   ]
         # ingress-traffic-json: |
         #   [ 
         #     { 
@@ -58,9 +58,9 @@ jobs:
         #   ]
         scale-max-replicas: 5
         scale-min-replicas: 1
-        scale-rules-json: |
-          [
-          ]
+        # scale-rules-json: |
+        #   [
+        #   ]
         # scale-rules-json: |
         #   [
         #     {
