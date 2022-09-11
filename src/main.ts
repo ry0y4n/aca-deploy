@@ -108,7 +108,6 @@ async function main() {
     );
 
     console.log(containerAppDeploymentResult.provisioningState);
-    console.log(containerAppDeploymentResult.ipAddress);
 
     // TBD: Need to prettify the output.
     console.log("Deployment Succeeded\n\n" + containerAppDeploymentResult);
