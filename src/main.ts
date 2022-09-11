@@ -126,12 +126,6 @@ async function main() {
     console.log("template: " + containerAppDeploymentResult.template);
     console.log("outboundIpAddresses: " + containerAppDeploymentResult.outboundIpAddresses);
     core.debug(containerAppDeploymentResult.provisioningState)
-
-    let appUrl = "http://"+containerAppDeploymentResult.latestRevisionFqdn+"/"
-    core.setOutput("app-url", appUrl);
-
-    // TBD: Need to prettify the output.
-    console.log("Deployment Succeeded\n\n" + appUrl);
   }
   catch (error: string | any) {
     console.log("Deployment Failed with Error: " + error);
