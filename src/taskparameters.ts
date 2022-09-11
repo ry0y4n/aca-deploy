@@ -151,6 +151,6 @@ export class TaskParameters {
 
     // Required container config parameters
     public get containersConfig() {
-        return this._containersConfig;
+        return [this._containersConfig];
     }
 }
