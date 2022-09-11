@@ -67,7 +67,9 @@ export class TaskParameters {
 
         // Required container config parameters
         let containerConfigJsonString = core.getInput('containers-config-json', { required: true });
+        console.log(containerConfigJsonString)
         this._containersConfig = JSON.parse(containerConfigJsonString)
+        console.log(JSON.parse(containerConfigJsonString))
     }
 
     // JSON Validation
