@@ -107,6 +107,9 @@ async function main() {
       containerAppEnvelope,
     );
 
+    console.log(containerAppDeploymentResult.provisioningState);
+    console.log(containerAppDeploymentResult.ipAddress?.fqdn);
+
     // TBD: Need to prettify the output.
     console.log("Deployment Succeeded\n\n" + containerAppDeploymentResult);
   }
