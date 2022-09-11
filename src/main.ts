@@ -106,6 +106,15 @@ async function main() {
       taskParams.containerAppName,
       containerAppEnvelope,
     );
+    if (containerAppDeploymentResult.provisioningState == "Succeeded") {
+      console.log("Deployment Succeeded");
+      let appUrl = "http://"+containerAppDeploymentResult.latestRevisionFqdn+"/"
+      core.setOutput("app-url", appUrl);
+      console.log("Your App has been deployed at: "+appUrl);
+    } else {
+      core.debug("Deployment Result: "+containerAppDeploymentResult);
+      throw Error("Container Deployment Failed"+containerAppDeploymentResult);
+    }
 
     console.log("identity: " + containerAppDeploymentResult.identity);
     console.log("provisioningState: " + containerAppDeploymentResult.provisioningState);
@@ -116,9 +125,13 @@ async function main() {
     console.log("configuration: " + containerAppDeploymentResult.configuration);
     console.log("template: " + containerAppDeploymentResult.template);
     console.log("outboundIpAddresses: " + containerAppDeploymentResult.outboundIpAddresses);
+    core.debug(containerAppDeploymentResult.provisioningState)
+
+    let appUrl = "http://"+containerAppDeploymentResult.latestRevisionFqdn+"/"
+    core.setOutput("app-url", appUrl);
 
     // TBD: Need to prettify the output.
-    console.log("Deployment Succeeded\n\n" + containerAppDeploymentResult);
+    console.log("Deployment Succeeded\n\n" + appUrl);
   }
   catch (error: string | any) {
     console.log("Deployment Failed with Error: " + error);
