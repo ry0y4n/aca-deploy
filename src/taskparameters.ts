@@ -41,7 +41,6 @@ export class TaskParameters {
         this._subscriptionId = endpoint.subscriptionID;
 
         // Required basic parameters
-        // this._subscriptionId = core.getInput('subscription-id',{ required: true } );
         this._resourceGroup = core.getInput('resource-group', { required: true });
         this._containerAppName = core.getInput('name', { required: true });
         this._location = core.getInput('location', { required: true });

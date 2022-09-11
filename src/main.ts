@@ -2,7 +2,6 @@ import * as core from "@actions/core";
 import * as crypto from "crypto";
 import { ContainerAppsAPIClient, ContainerApp } from "@azure/arm-appcontainers";
 import { TokenCredential, DefaultAzureCredential } from "@azure/identity";
-
 import { AuthorizerFactory } from "azure-actions-webclient/AuthorizerFactory";
 import { IAuthorizer } from "azure-actions-webclient/Authorizer/IAuthorizer";
 
