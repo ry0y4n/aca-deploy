@@ -116,16 +116,15 @@ async function main() {
       throw Error("Container Deployment Failed"+containerAppDeploymentResult);
     }
 
-    console.log("identity: " + containerAppDeploymentResult.identity);
-    console.log("provisioningState: " + containerAppDeploymentResult.provisioningState);
-    console.log("managedEnvironmentId: " + containerAppDeploymentResult.managedEnvironmentId);
-    console.log("latestRevisionName: " + containerAppDeploymentResult.latestRevisionName);
-    console.log("latestRevisionFqdn: " + containerAppDeploymentResult.latestRevisionFqdn);
-    console.log("customDomainVerificationId: " + containerAppDeploymentResult.customDomainVerificationId);
-    console.log("configuration: " + containerAppDeploymentResult.configuration);
-    console.log("template: " + containerAppDeploymentResult.template);
-    console.log("outboundIpAddresses: " + containerAppDeploymentResult.outboundIpAddresses);
-    core.debug(containerAppDeploymentResult.provisioningState)
+    // console.log("identity: " + containerAppDeploymentResult.identity);
+    // console.log("provisioningState: " + containerAppDeploymentResult.provisioningState);
+    // console.log("managedEnvironmentId: " + containerAppDeploymentResult.managedEnvironmentId);
+    // console.log("latestRevisionName: " + containerAppDeploymentResult.latestRevisionName);
+    // console.log("latestRevisionFqdn: " + containerAppDeploymentResult.latestRevisionFqdn);
+    // console.log("customDomainVerificationId: " + containerAppDeploymentResult.customDomainVerificationId);
+    // console.log("configuration: " + containerAppDeploymentResult.configuration);
+    // console.log("template: " + containerAppDeploymentResult.template);
+    // console.log("outboundIpAddresses: " + containerAppDeploymentResult.outboundIpAddresses);
   }
   catch (error: string | any) {
     console.log("Deployment Failed with Error: " + error);
