@@ -108,9 +108,12 @@ async function main() {
     );
     if (containerAppDeploymentResult.provisioningState == "Succeeded") {
       console.log("Deployment Succeeded");
-      let appUrl = "http://"+containerAppDeploymentResult.latestRevisionFqdn+"/"
-      core.setOutput("app-url", appUrl);
-      console.log("Your App has been deployed at: "+appUrl);
+
+      if (ingresConfig.external == true) {
+        let appUrl = "http://"+containerAppDeploymentResult.latestRevisionFqdn+"/"
+        core.setOutput("app-url", appUrl);
+        console.log("Your App has been deployed at: "+appUrl);
+      }
     } else {
       core.debug("Deployment Result: "+containerAppDeploymentResult);
       throw Error("Container Deployment Failed"+containerAppDeploymentResult);
