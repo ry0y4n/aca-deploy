@@ -107,15 +107,15 @@ async function main() {
       containerAppEnvelope,
     );
 
-    console.log(containerAppDeploymentResult.identity);
-    console.log(containerAppDeploymentResult.provisioningState);
-    console.log(containerAppDeploymentResult.managedEnvironmentId);
-    console.log(containerAppDeploymentResult.latestRevisionName);
-    console.log(containerAppDeploymentResult.latestRevisionFqdn);
-    console.log(containerAppDeploymentResult.customDomainVerificationId);
-    console.log(containerAppDeploymentResult.configuration);
-    console.log(containerAppDeploymentResult.template);
-    console.log(containerAppDeploymentResult.outboundIpAddresses);
+    console.log("identity: " + containerAppDeploymentResult.identity);
+    console.log("provisioningState: " + containerAppDeploymentResult.provisioningState);
+    console.log("managedEnvironmentId: " + containerAppDeploymentResult.managedEnvironmentId);
+    console.log("latestRevisionName: " + containerAppDeploymentResult.latestRevisionName);
+    console.log("latestRevisionFqdn: " + containerAppDeploymentResult.latestRevisionFqdn);
+    console.log("customDomainVerificationId: " + containerAppDeploymentResult.customDomainVerificationId);
+    console.log("configuration: " + containerAppDeploymentResult.configuration);
+    console.log("template: " + containerAppDeploymentResult.template);
+    console.log("outboundIpAddresses: " + containerAppDeploymentResult.outboundIpAddresses);
 
     // TBD: Need to prettify the output.
     console.log("Deployment Succeeded\n\n" + containerAppDeploymentResult);
