@@ -56,11 +56,11 @@ jobs:
         #       "weight": 100 
         #     } 
         #   ]
-        scale-max-replicas: 5
-        scale-min-replicas: 1
-        scale-rules-json: |
-          [
-          ]
+        # scale-max-replicas: 5
+        # scale-min-replicas: 1
+        # scale-rules-json: |
+        #   [
+        #   ]
         # scale-rules-json: |
         #   [
         #     {
