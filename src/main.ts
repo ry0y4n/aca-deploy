@@ -33,6 +33,7 @@ async function main() {
     console.log(currentAppParameters.configuration?.ingress?.traffic);
     console.log(currentAppParameters.template?.containers);
     console.log(currentAppParameters.template?.scale?.rules);
+    console.log(currentAppParameters.template?.scale?.rules?.http?.metadata);
 
     // TBD: Remove key when there is key without value
     const daprConfig: {
@@ -76,7 +77,7 @@ async function main() {
     } = {
       maxReplicas: taskParams.scaleMaxReplicas, 
       minReplicas: taskParams.scaleMinReplicas, 
-      rules: currentAppParameters.template?.scale?.rules == undefined ? taskParams.scaleRules : currentAppParameters.template?.scale?.rules
+      rules: currentAppParameters.template?.scale?.rules == undefined ? scaleRules : currentAppParameters.template?.scale?.rules
     }
 
     let networkConfig: {
