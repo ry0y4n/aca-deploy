@@ -108,6 +108,7 @@ async function main() {
     );
     if (containerAppDeploymentResult.provisioningState == "Succeeded") {
       console.log("Deployment Succeeded");
+      console.log(containerAppDeploymentResult.configuration.ingress.customDomains.name)
 
       if (ingresConfig.external == true) {
         let appUrl = "http://"+containerAppDeploymentResult.latestRevisionFqdn+"/"
