@@ -83,9 +83,9 @@ async function main() {
       minReplicas: number,
       rules: any[]
     } = {
-      maxReplicas: taskParams.scaleMaxReplicas, 
-      minReplicas: taskParams.scaleMinReplicas, 
-      rules: scaleRules
+      maxReplicas: parameters["scale-max-replicas"], 
+      minReplicas: parameters["scale-min-replicas"], 
+      rules: parameters["scale-rules-json"]
     }
 
     let networkConfig: {
