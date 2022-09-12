@@ -1,5 +1,7 @@
 import * as core from "@actions/core";
 import * as crypto from "crypto";
+import fs from 'fs'
+import YAML from 'yaml'
 import { ContainerAppsAPIClient, ContainerApp } from "@azure/arm-appcontainers";
 import { TokenCredential, DefaultAzureCredential } from "@azure/identity";
 import { AuthorizerFactory } from "azure-actions-webclient/AuthorizerFactory";
@@ -27,15 +29,19 @@ async function main() {
     let subscriptionId = taskParams.subscriptionId
 
     console.log("Predeployment Steps Started");
-    const client = new ContainerAppsAPIClient(credential, taskParams.subscriptionId);
-    const currentAppParameters = await client.containerApps.get(taskParams.resourceGroup, taskParams.containerAppName,);
-    console.log(currentAppParameters);
-    console.log(currentAppParameters.configuration?.ingress?.traffic);
-    console.log(currentAppParameters.template?.containers);
-    console.log(currentAppParameters.template?.scale?.rules);
-    // console.log(currentAppParameters.template?.scale?.rules[0].http.metadata);
+    // const client = new ContainerAppsAPIClient(credential, taskParams.subscriptionId);
+    // const currentAppParameters = await client.containerApps.get(taskParams.resourceGroup, taskParams.containerAppName,);
+    // console.log(currentAppParameters);
+    // console.log(currentAppParameters.configuration?.ingress?.traffic);
+    // console.log(currentAppParameters.template?.containers);
+    // console.log(currentAppParameters.template?.scale?.rules);
+    // // console.log(currentAppParameters.template?.scale?.rules[0].http.metadata);
     // [ *** name: 'httpscalingrule', http: *** metadata: [Object] *** *** ]
     // const currentScaleRule = currentAppParameters.template?.scale?.rules
+
+    const parameters_file = fs.readFileSync('./newyaml.yml', 'utf8')
+    const parameters = YAML.parse(parameters_file)
+    console.dir(parameters, {depth: null})
 
     // TBD: Remove key when there is key without value
     const daprConfig: {
@@ -43,9 +49,9 @@ async function main() {
       appProtocol?: string,
       enabled: boolean
     } = {
-      appPort: taskParams.daprAppPort, 
-      appProtocol: taskParams.daprAppProtocol, 
-      enabled: taskParams.daprEnabled
+      appPort: parameters["dapr-app-port"], 
+      appProtocol: parameters["dapr-app-protocol"], 
+      enabled: parameters["dapr-enabled"]
     }
     if (isNaN(taskParams.daprAppPort)) {
       delete daprConfig.appPort
