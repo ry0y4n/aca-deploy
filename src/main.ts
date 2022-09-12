@@ -28,6 +28,8 @@ async function main() {
 
     console.log("Predeployment Steps Started");
     const client = new ContainerAppsAPIClient(credential, taskParams.subscriptionId);
+    const result = await client.containerApps.get(taskParams.resourceGroup, taskParams.containerAppName,);
+    console.log(result);
 
     // TBD: Remove key when there is key without value
     const daprConfig: {
@@ -108,7 +110,6 @@ async function main() {
     );
     if (containerAppDeploymentResult.provisioningState == "Succeeded") {
       console.log("Deployment Succeeded");
-      console.log(containerAppDeploymentResult.template?.scale?.rules)
 
       if (ingresConfig.external == true) {
         let appUrl = "http://"+containerAppDeploymentResult.latestRevisionFqdn+"/"
