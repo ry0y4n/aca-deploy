@@ -33,7 +33,7 @@ async function main() {
     console.log(currentAppParameters.configuration?.ingress?.traffic);
     console.log(currentAppParameters.template?.containers);
     console.log(currentAppParameters.template?.scale?.rules);
-    console.log(currentAppParameters.template?.scale?.rules?.http?.metadata);
+    console.log(currentAppParameters.template?.scale?.rules[0]?.http?.metadata);
 
     // TBD: Remove key when there is key without value
     const daprConfig: {
