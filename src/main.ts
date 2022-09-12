@@ -30,18 +30,9 @@ async function main() {
 
     console.log("Predeployment Steps Started");
     const client = new ContainerAppsAPIClient(credential, taskParams.subscriptionId);
-    // const currentAppParameters = await client.containerApps.get(taskParams.resourceGroup, taskParams.containerAppName,);
-    // console.log(currentAppParameters);
-    // console.log(currentAppParameters.configuration?.ingress?.traffic);
-    // console.log(currentAppParameters.template?.containers);
-    // console.log(currentAppParameters.template?.scale?.rules);
-    // // console.log(currentAppParameters.template?.scale?.rules[0].http.metadata);
-    // [ *** name: 'httpscalingrule', http: *** metadata: [Object] *** *** ]
-    // const currentScaleRule = currentAppParameters.template?.scale?.rules
 
     const parameters_file = fs.readFileSync('./src/parameters.yml', 'utf8')
     const parameters = YAML.parse(parameters_file)
-    console.dir(parameters, {depth: null})
 
     // TBD: Remove key when there is key without value
     const daprConfig: {
@@ -53,10 +44,10 @@ async function main() {
       appProtocol: parameters["dapr-app-protocol"], 
       enabled: parameters["dapr-enabled"]
     }
-    if (isNaN(taskParams.daprAppPort)) {
+    if (parameters["dapr-app-port"] == undefined) {
       delete daprConfig.appPort
     }
-    if (taskParams.daprAppProtocol == "") {
+    if (parameters["dapr-app-protocol"] == undefined) {
       delete daprConfig.appProtocol
     }
 
@@ -72,7 +63,7 @@ async function main() {
       traffic: parameters["ingress-traffic-json"], 
       customDomains: parameters["ingress-custom-domains-json"]
     }
-    if (parameters["ingress-traffic-json"] == 0) {
+    if (parameters["ingress-traffic-json"] == undefined) {
       delete ingresConfig.traffic
     }
 
@@ -94,7 +85,7 @@ async function main() {
       dapr: daprConfig,
       ingress: ingresConfig
     }
-    if (parameters["ingress-external"] == false) {
+    if (parameters["ingress-external"] == false || parameters["ingress-external"] == unde) {
       delete networkConfig.ingress
     }
 
@@ -131,16 +122,6 @@ async function main() {
       core.debug("Deployment Result: "+containerAppDeploymentResult);
       throw Error("Container Deployment Failed"+containerAppDeploymentResult);
     }
-
-    // console.log("identity: " + containerAppDeploymentResult.identity);
-    // console.log("provisioningState: " + containerAppDeploymentResult.provisioningState);
-    // console.log("managedEnvironmentId: " + containerAppDeploymentResult.managedEnvironmentId);
-    // console.log("latestRevisionName: " + containerAppDeploymentResult.latestRevisionName);
-    // console.log("latestRevisionFqdn: " + containerAppDeploymentResult.latestRevisionFqdn);
-    // console.log("customDomainVerificationId: " + containerAppDeploymentResult.customDomainVerificationId);
-    // console.log("configuration: " + containerAppDeploymentResult.configuration);
-    // console.log("template: " + containerAppDeploymentResult.template);
-    // console.log("outboundIpAddresses: " + containerAppDeploymentResult.outboundIpAddresses);
   }
   catch (error: string | any) {
     console.log("Deployment Failed with Error: " + error);
