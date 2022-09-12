@@ -33,9 +33,9 @@ async function main() {
     console.log(currentAppParameters.configuration?.ingress?.traffic);
     console.log(currentAppParameters.template?.containers);
     console.log(currentAppParameters.template?.scale?.rules);
-    console.log(currentAppParameters.template?.scale?.rules[0].http.metadata);
+    // console.log(currentAppParameters.template?.scale?.rules[0].http.metadata);
     // [ *** name: 'httpscalingrule', http: *** metadata: [Object] *** *** ]
-    const currentScaleRule = currentAppParameters.template?.scale?.rules
+    // const currentScaleRule = currentAppParameters.template?.scale?.rules
 
     // TBD: Remove key when there is key without value
     const daprConfig: {
