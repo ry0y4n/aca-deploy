@@ -76,7 +76,7 @@ async function main() {
     } = {
       maxReplicas: taskParams.scaleMaxReplicas, 
       minReplicas: taskParams.scaleMinReplicas, 
-      rules: currentAppParameters.template?.scale?.rules
+      rules: currentAppParameters.template?.scale?.rules == undefined ? taskParams.scaleRules : currentAppParameters.template?.scale?.rules
     }
 
     let networkConfig: {
