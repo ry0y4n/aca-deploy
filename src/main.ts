@@ -85,7 +85,7 @@ async function main() {
       dapr: daprConfig,
       ingress: ingresConfig
     }
-    if (parameters["ingress-external"] == false || parameters["ingress-external"] == unde) {
+    if (parameters["ingress-external"] == false || parameters["ingress-external"] == undefined) {
       delete networkConfig.ingress
     }
 
