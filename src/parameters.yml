@@ -30,7 +30,7 @@ scale-rules-json:
     custom:
       type: http
       metadata:
-        concurrentRequests: 50
+        concurrentRequests: "50"
 containers-config-json:
   - name: simple-hello-world-container
     image: mcr.microsoft.com/azuredocs/containerapps-helloworld:latest
