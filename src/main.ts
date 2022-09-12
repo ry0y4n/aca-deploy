@@ -28,8 +28,11 @@ async function main() {
 
     console.log("Predeployment Steps Started");
     const client = new ContainerAppsAPIClient(credential, taskParams.subscriptionId);
-    const result = await client.containerApps.get(taskParams.resourceGroup, taskParams.containerAppName,);
-    console.log(result);
+    const currentAppParameters = await client.containerApps.get(taskParams.resourceGroup, taskParams.containerAppName,);
+    console.log(currentAppParameters);
+    console.log(currentAppParameters.configuration.ingress.traffic);
+    console.log(currentAppParameters.template.containers);
+    console.log(currentAppParameters.template.scale.rules);
 
     // TBD: Remove key when there is key without value
     const daprConfig: {

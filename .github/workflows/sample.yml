@@ -37,14 +37,14 @@ jobs:
         # ingress-custom-domains-json: |
         #   [
         #   ]
-        # ingress-custom-domains-json: |
-        #   [
-        #     {
-        #       "name": "www.my-name.com", 
-        #       "bindingType": "SniEnabled", 
-        #       "certificateId": "/subscriptions/a4deccb1-a1f6-40cb-a923-f55a7d22c32d/resourceGroups/aca-sample-rg/providers/Microsoft.App/managedEnvironments/momosuke-container-env/certificates/<CertificateName>"
-        #     }
-        #   ]
+        ingress-custom-domains-json: |
+          [
+            {
+              "name": "www.my-name.com", 
+              "bindingType": "SniEnabled", 
+              "certificateId": "/subscriptions/a4deccb1-a1f6-40cb-a923-f55a7d22c32d/resourceGroups/aca-sample-rg/providers/Microsoft.App/managedEnvironments/momosuke-container-env/certificates/527CAD9560BF6B5F95AE62E94BF7A7CA0EC5C294ACC77622A0CF24527936C63C"
+            }
+          ]
         # ingress-traffic-json: |
         #   [
         #   ]
