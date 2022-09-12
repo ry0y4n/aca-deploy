@@ -37,14 +37,14 @@ jobs:
         # ingress-custom-domains-json: |
         #   [
         #   ]
-        ingress-custom-domains-json: |
-          [
-            {
-              "name": "www.my-name.com", 
-              "bindingType": "SniEnabled", 
-              "certificateId": "/subscriptions/a4deccb1-a1f6-40cb-a923-f55a7d22c32d/resourceGroups/aca-sample-rg/providers/Microsoft.App/managedEnvironments/momosuke-container-env/certificates/momosukesan"
-            }
-          ]
+        # ingress-custom-domains-json: |
+        #   [
+        #     {
+        #       "name": "www.my-name.com", 
+        #       "bindingType": "SniEnabled", 
+        #       "certificateId": "/subscriptions/a4deccb1-a1f6-40cb-a923-f55a7d22c32d/resourceGroups/aca-sample-rg/providers/Microsoft.App/managedEnvironments/momosuke-container-env/certificates/<CertificateName>"
+        #     }
+        #   ]
         # ingress-traffic-json: |
         #   [
         #   ]
@@ -61,18 +61,18 @@ jobs:
         # scale-rules-json: |
         #   [
         #   ]
-        # scale-rules-json: |
-        #   [
-        #     {
-        #       "name": "httpscalingrule",
-        #       "custom": { 
-        #         "type": "http", 
-        #         "metadata": { 
-        #           "concurrentRequests": "50" 
-        #         }
-        #       }
-        #     }
-        #   ]
+        scale-rules-json: |
+          [
+            {
+              "name": "httpscalingrule",
+              "custom": { 
+                "type": "http", 
+                "metadata": { 
+                  "concurrentRequests": "50" 
+                }
+              }
+            }
+          ]
         containers-config-json: | 
           [
             {
