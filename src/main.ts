@@ -30,9 +30,9 @@ async function main() {
     const client = new ContainerAppsAPIClient(credential, taskParams.subscriptionId);
     const currentAppParameters = await client.containerApps.get(taskParams.resourceGroup, taskParams.containerAppName,);
     console.log(currentAppParameters);
-    console.log(currentAppParameters.configuration.ingress.traffic);
-    console.log(currentAppParameters.template.containers);
-    console.log(currentAppParameters.template.scale.rules);
+    console.log(currentAppParameters.configuration?.ingress?.traffic);
+    console.log(currentAppParameters.template?.containers);
+    console.log(currentAppParameters.template?.scale.rules);
 
     // TBD: Remove key when there is key without value
     const daprConfig: {
