@@ -72,11 +72,10 @@ async function main() {
       traffic: parameters["ingress-traffic-json"], 
       customDomains: parameters["ingress-custom-domains-json"]
     }
-    if (taskParams.ingressTraffic.length == 0) {
+    if (parameters["ingress-traffic-json"] == 0) {
       delete ingresConfig.traffic
     }
 
-    let scaleRules = taskParams.scaleRules
     // TBD: Remove key when there is key without value
     const scaleConfig: {
       maxReplicas: number,
@@ -95,18 +94,18 @@ async function main() {
       dapr: daprConfig,
       ingress: ingresConfig
     }
-    if (taskParams.ingressExternal == false) {
+    if (parameters["ingress-external"] == false) {
       delete networkConfig.ingress
     }
 
     // TBD: Find a way to get a value instead of json
-    const containersConfig = taskParams.containersConfig
+    const containersConfig = parameters["containers-config-json"]
 
     const containerAppEnvelope: ContainerApp = {
       configuration: networkConfig,
-      location: taskParams.location,
+      location: parameters["location"],
       managedEnvironmentId:
-        `/subscriptions/${subscriptionId}/resourceGroups/${taskParams.resourceGroup}/providers/Microsoft.App/managedEnvironments/${taskParams.managedEnvironmentName}`,
+        `/subscriptions/${parameters["subscription-id"]}/resourceGroups/${parameters["resource-group"]}/providers/Microsoft.App/managedEnvironments/${parameters["momosuke-container-env"]}`,
       template: {
         containers: containersConfig,
         scale: scaleConfig
@@ -116,8 +115,8 @@ async function main() {
     console.log("Deployment Step Started");
 
     let containerAppDeploymentResult = await client.containerApps.beginCreateOrUpdateAndWait(
-      taskParams.resourceGroup,
-      taskParams.containerAppName,
+      parameters["resource-group"],
+      parameters["name"],
       containerAppEnvelope,
     );
     if (containerAppDeploymentResult.provisioningState == "Succeeded") {
