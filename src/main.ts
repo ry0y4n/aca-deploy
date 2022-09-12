@@ -39,7 +39,7 @@ async function main() {
     // [ *** name: 'httpscalingrule', http: *** metadata: [Object] *** *** ]
     // const currentScaleRule = currentAppParameters.template?.scale?.rules
 
-    const parameters_file = fs.readFileSync('../parameters.yml', 'utf8')
+    const parameters_file = fs.readFileSync('./parameters.yml', 'utf8')
     const parameters = YAML.parse(parameters_file)
     console.dir(parameters, {depth: null})
 
