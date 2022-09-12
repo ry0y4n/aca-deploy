@@ -29,7 +29,7 @@ async function main() {
     let subscriptionId = taskParams.subscriptionId
 
     console.log("Predeployment Steps Started");
-    // const client = new ContainerAppsAPIClient(credential, taskParams.subscriptionId);
+    const client = new ContainerAppsAPIClient(credential, taskParams.subscriptionId);
     // const currentAppParameters = await client.containerApps.get(taskParams.resourceGroup, taskParams.containerAppName,);
     // console.log(currentAppParameters);
     // console.log(currentAppParameters.configuration?.ingress?.traffic);
@@ -85,7 +85,7 @@ async function main() {
     } = {
       maxReplicas: taskParams.scaleMaxReplicas, 
       minReplicas: taskParams.scaleMinReplicas, 
-      rules: currentAppParameters.template?.scale?.rules == undefined ? scaleRules : currentAppParameters.template?.scale?.rules
+      rules: scaleRules
     }
 
     let networkConfig: {
