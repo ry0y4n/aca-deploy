@@ -105,7 +105,7 @@ async function main() {
       configuration: networkConfig,
       location: parameters["location"],
       managedEnvironmentId:
-        `/subscriptions/${parameters["subscription-id"]}/resourceGroups/${parameters["resource-group"]}/providers/Microsoft.App/managedEnvironments/${parameters["momosuke-container-env"]}`,
+        `/subscriptions/${parameters["subscription-id"]}/resourceGroups/${parameters["resource-group"]}/providers/Microsoft.App/managedEnvironments/${parameters["managed-environment-name"]}`,
       template: {
         containers: containersConfig,
         scale: scaleConfig
