@@ -66,10 +66,6 @@ export class TaskParameters {
         this._scaleMinReplicas = parseInt(core.getInput('scale-min-replicas', { required: false }));
         let scaleRulesJsonString = core.getInput('scale-rules-json', { required: false });
         this._scaleRules = scaleRulesJsonString == "" ? [] : JSON.parse(scaleRulesJsonString)
-
-        // Required container config parameters
-        let containerConfigJsonString = core.getInput('containers-config-json', { required: false });
-        this._containersConfig = JSON.parse(containerConfigJsonString)
     }
 
     // JSON Validation
