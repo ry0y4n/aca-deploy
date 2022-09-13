@@ -98,12 +98,13 @@ async function main() {
       }
     ]
 
+    let managedEnvironmentName= currentAppProperty.managedEnvironmentId.substr(currentAppProperty.managedEnvironmentId.lastIndexOf('/') + 1);
 
     const containerAppEnvelope: ContainerApp = {
       configuration: networkConfig,
       location: currentAppProperty.location,
       managedEnvironmentId:
-        `/subscriptions/${parameters["subscription-id"]}/resourceGroups/${taskParams.resourceGroup}/providers/Microsoft.App/managedEnvironments/${parameters["managed-environment-name"]}`,
+        `/subscriptions/${taskParams.subscriptionId}/resourceGroups/${taskParams.resourceGroup}/providers/Microsoft.App/managedEnvironments/${managedEnvironmentName}`,
       template: {
         containers: containerConfig,
         scale: scaleConfig
