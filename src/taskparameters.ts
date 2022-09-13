@@ -13,7 +13,6 @@ export class TaskParameters {
     private _containerAppName: string;
     private _imageName: string
     private _subscriptionId: string;
-    private _managedEnvironmentName: string;
 
     // Optional Dapr parameters
     private _daprEnabled: boolean;
@@ -41,7 +40,6 @@ export class TaskParameters {
         this._resourceGroup = core.getInput('resource-group', { required: true });
         this._containerAppName = core.getInput('name', { required: true });
         this._imageName = core.getInput('image', { required: true });
-        this._managedEnvironmentName = core.getInput('managed-environment-name', { required: true });
 
         // Optional Dapr parameters
         this._daprAppPort = parseInt(core.getInput('dapr-app-port', { required: false }));
@@ -91,10 +89,6 @@ export class TaskParameters {
 
     public get subscriptionId() {
         return this._subscriptionId;
-    }
-
-    public get managedEnvironmentName() {
-        return this._managedEnvironmentName;
     }
 
     // Optional Dapr parameters

@@ -17,9 +17,6 @@ inputs:
     subscription-id:
         description: 'Name of the Subscription ID'
         required: true
-    managed-environment-name:
-        description: 'Name of the Managed Environment'
-        required: true
     dapr-app-port:
         description: 'Port of the Dapr App'
         required: false
