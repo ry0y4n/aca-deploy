@@ -111,6 +111,7 @@ async function main() {
         scale: scaleConfig
       }
     };
+    console.dir(containerAppEnvelope, {depth: null})
 
     console.log("Deployment Step Started");
 
