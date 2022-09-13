@@ -42,10 +42,10 @@ async function main() {
       traffic?: any[],
       customDomains?: any[]
     } = {
-      external: currentAppProperty.configuration!.ingress!.external, 
-      targetPort: currentAppProperty.configuration!.ingress!.targetPort, 
-      traffic: currentAppProperty.configuration!.ingress!.traffic, 
-      customDomains: currentAppProperty.configuration!.ingress!.customDomains || [] 
+      external: currentAppProperty.configuration!.ingress!.external!, 
+      targetPort: currentAppProperty.configuration!.ingress!.targetPort!, 
+      traffic: currentAppProperty.configuration!.ingress!.traffic!, 
+      customDomains: currentAppProperty.configuration!.ingress!.customDomains!
     }
     if (parameters["ingress-traffic-json"] == undefined) {
       delete ingresConfig.traffic
