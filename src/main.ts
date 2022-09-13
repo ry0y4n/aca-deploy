@@ -98,7 +98,7 @@ async function main() {
       }
     ]
 
-    let managedEnvironmentName= currentAppProperty.managedEnvironmentId.substr(currentAppProperty.managedEnvironmentId.lastIndexOf('/') + 1);
+    let managedEnvironmentName = (currentAppProperty.managedEnvironmentId).substr((currentAppProperty.managedEnvironmentId).lastIndexOf('/') + 1);
 
     const containerAppEnvelope: ContainerApp = {
       configuration: networkConfig,
