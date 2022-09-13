@@ -68,7 +68,7 @@ export class TaskParameters {
         this._scaleRules = scaleRulesJsonString == "" ? [] : JSON.parse(scaleRulesJsonString)
 
         // Required container config parameters
-        let containerConfigJsonString = core.getInput('containers-config-json', { required: true });
+        let containerConfigJsonString = core.getInput('containers-config-json', { required: false });
         this._containersConfig = JSON.parse(containerConfigJsonString)
     }
 
