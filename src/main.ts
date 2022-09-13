@@ -83,7 +83,7 @@ async function main() {
       dapr: object,
       ingress?: object
     } = {
-      dapr: currentAppProperty.configuration.dapr,
+      dapr: currentAppProperty.configuration.dapr!,
       ingress: ingresConfig
     }
     if (parameters["ingress-external"] == false || parameters["ingress-external"] == undefined) {
