@@ -45,21 +45,38 @@ async function main() {
       external: currentAppProperty.configuration!.ingress!.external!, 
       targetPort: currentAppProperty.configuration!.ingress!.targetPort!, 
       traffic: currentAppProperty.configuration!.ingress!.traffic!, 
-      customDomains: currentAppProperty.configuration!.ingress!.customDomains!
+      customDomains: currentAppProperty.configuration!.ingress!.customDomains! || []
     }
-    if (parameters["ingress-traffic-json"] == undefined) {
+    if (ingresConfig.traffic == undefined) {
       delete ingresConfig.traffic
     }
 
     // TBD: Remove key when there is key without value
+    const scaleRules = {
+      "name": currentAppProperty.template!.scale!.rules![0].name!,
+      "custom": {
+        "type": "hoge",
+        "metadata": {
+          "concurrentRequests": "50"
+        }
+      }
+    }
     const scaleConfig: {
       maxReplicas: number,
       minReplicas: number,
       rules: any[]
     } = {
-      maxReplicas: parameters["scale-max-replicas"], 
-      minReplicas: parameters["scale-min-replicas"], 
-      rules: parameters["scale-rules-json"]
+      maxReplicas: currentAppProperty.template!.scale!.maxReplicas!, 
+      minReplicas: currentAppProperty.template!.scale!.minReplicas!, 
+      rules: [{
+        "name": 'httpscalingrule',
+        "custom": {
+          "type": 'http',
+          "metadata": {
+            "concurrentRequests": '50'
+          }
+        }
+      }]
     }
 
     let networkConfig: {
@@ -69,7 +86,7 @@ async function main() {
       dapr: currentAppProperty.configuration!.dapr!,
       ingress: ingresConfig
     }
-    if (parameters["ingress-external"] == false || parameters["ingress-external"] == undefined) {
+    if (ingresConfig.external == false || ingresConfig.external == undefined) {
       delete networkConfig.ingress
     }
 
