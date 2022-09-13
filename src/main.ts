@@ -97,6 +97,7 @@ async function main() {
         selectedContainerConfig = containerConfig
       }
     });
+    console.dir([selectedContainerConfig], {depth: null})
 
 
     const containerAppEnvelope: ContainerApp = {
