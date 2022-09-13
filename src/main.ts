@@ -89,7 +89,7 @@ async function main() {
 
     // TBD: Find a way to get a value instead of json
     // const containersConfig = parameters["containers-config-json"]
-    const containesrConfigFile = fs.readFileSync('./src/parameters.yml', 'utf8')
+    const containesrConfigFile = fs.readFileSync('./src/containers-config.yml', 'utf8')
     const containersConfig = YAML.parse(containesrConfigFile)
 
     const containerAppEnvelope: ContainerApp = {
