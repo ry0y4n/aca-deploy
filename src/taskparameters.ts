@@ -11,7 +11,7 @@ export class TaskParameters {
     // Required basic parameters
     private _resourceGroup: string;
     private _containerAppName: string;
-    private _location: string; 
+    private _imageName: string
     private _subscriptionId: string;
     private _managedEnvironmentName: string;
     private _containersConfigPath: string;
@@ -41,7 +41,7 @@ export class TaskParameters {
         // Required basic parameters
         this._resourceGroup = core.getInput('resource-group', { required: true });
         this._containerAppName = core.getInput('name', { required: true });
-        this._location = core.getInput('location', { required: true });
+        this._imageName = core.getInput('name', { required: true });
         this._managedEnvironmentName = core.getInput('managed-environment-name', { required: true });
         this._containersConfigPath = core.getInput('containers-config-path', { required: true});
 
@@ -87,8 +87,8 @@ export class TaskParameters {
         return this._containerAppName;
     }
 
-    public get location() {
-        return this._location;
+    public get imageName() {
+        return this._imageName;
     }
 
     public get subscriptionId() {

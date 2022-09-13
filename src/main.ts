@@ -100,6 +100,13 @@ async function main() {
       }
     });
 
+    const containerConfig = [
+      {
+        "name": taskParams.containerAppName,
+        "image": taskParams.imageName
+      }
+    ]
+
 
     const containerAppEnvelope: ContainerApp = {
       configuration: networkConfig,
@@ -107,7 +114,7 @@ async function main() {
       managedEnvironmentId:
         `/subscriptions/${parameters["subscription-id"]}/resourceGroups/${parameters["resource-group"]}/providers/Microsoft.App/managedEnvironments/${parameters["managed-environment-name"]}`,
       template: {
-        containers: selectedContainerConfig,
+        containers: containerConfig,
         scale: scaleConfig
       }
     };
