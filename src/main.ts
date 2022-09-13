@@ -90,14 +90,14 @@ async function main() {
     // TBD: Find a way to get a value instead of json
     const containesrConfigFile = fs.readFileSync('./src/containers-config.yml', 'utf8');
     const containersConfig = YAML.parse(containesrConfigFile);
-    let selectedContainerConfig
+    let selectedContainerConfig;
     containersConfig.forEach((containerConfig: any) => {
       if (containerConfig.name == "momosuke-container3") {
         // console.dir(containerConfig, {depth: null})
-        selectedContainerConfig = containerConfig
+        selectedContainerConfig = [containerConfig]
       }
     });
-    console.dir([selectedContainerConfig], {depth: null})
+    console.dir(selectedContainerConfig, {depth: null})
 
 
     const containerAppEnvelope: ContainerApp = {
@@ -106,7 +106,7 @@ async function main() {
       managedEnvironmentId:
         `/subscriptions/${parameters["subscription-id"]}/resourceGroups/${parameters["resource-group"]}/providers/Microsoft.App/managedEnvironments/${parameters["managed-environment-name"]}`,
       template: {
-        containers: [selectedContainerConfig],
+        containers: selectedContainerConfig,
         scale: scaleConfig
       }
     };
