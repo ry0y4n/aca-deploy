@@ -52,15 +52,6 @@ async function main() {
     }
 
     // TBD: Remove key when there is key without value
-    const scaleRules = {
-      "name": currentAppProperty.template!.scale!.rules![0].name!,
-      "custom": {
-        "type": "hoge",
-        "metadata": {
-          "concurrentRequests": "50"
-        }
-      }
-    }
     const scaleConfig: {
       maxReplicas: number,
       minReplicas: number,
