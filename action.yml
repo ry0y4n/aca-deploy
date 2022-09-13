@@ -20,9 +20,6 @@ inputs:
     managed-environment-name:
         description: 'Name of the Managed Environment'
         required: true
-    containers-config-path:
-        description: 'Path to Container Config File'
-        required: true
     dapr-app-port:
         description: 'Port of the Dapr App'
         required: false

@@ -29,8 +29,8 @@ async function main() {
     console.log("Predeployment Steps Started");
     const client = new ContainerAppsAPIClient(credential, taskParams.subscriptionId);
 
-    const result = await client.containerApps.get(taskParams.resourceGroup, taskParams.containerAppName);
-    console.dir(result, {depth: null});
+    const currentAppProperty = await client.containerApps.get(taskParams.resourceGroup, taskParams.containerAppName);
+    console.dir(currentAppProperty, {depth: null});
 
     const parametersFile = fs.readFileSync('./src/parameters.yml', 'utf8')
     const parameters = YAML.parse(parametersFile)
@@ -91,15 +91,6 @@ async function main() {
     }
 
     // TBD: Find a way to get a value instead of json
-    const containesrConfigFile = fs.readFileSync(taskParams.containersConfigPath, 'utf8');
-    const containersConfig = YAML.parse(containesrConfigFile);
-    let selectedContainerConfig;
-    containersConfig.forEach((containerConfig: any) => {
-      if (containerConfig.name == "momosuke-container3") {
-        selectedContainerConfig = [containerConfig]
-      }
-    });
-
     const containerConfig = [
       {
         "name": taskParams.containerAppName,
@@ -110,9 +101,9 @@ async function main() {
 
     const containerAppEnvelope: ContainerApp = {
       configuration: networkConfig,
-      location: parameters["location"],
+      location: currentAppProperty.location,
       managedEnvironmentId:
-        `/subscriptions/${parameters["subscription-id"]}/resourceGroups/${parameters["resource-group"]}/providers/Microsoft.App/managedEnvironments/${parameters["managed-environment-name"]}`,
+        `/subscriptions/${parameters["subscription-id"]}/resourceGroups/${taskParams.resourceGroup}/providers/Microsoft.App/managedEnvironments/${parameters["managed-environment-name"]}`,
       template: {
         containers: containerConfig,
         scale: scaleConfig
@@ -123,8 +114,8 @@ async function main() {
     console.log("Deployment Step Started");
 
     let containerAppDeploymentResult = await client.containerApps.beginCreateOrUpdateAndWait(
-      parameters["resource-group"],
-      parameters["name"],
+      taskParams.resourceGroup,
+      taskParams.containerAppName,
       containerAppEnvelope,
     );
     if (containerAppDeploymentResult.provisioningState == "Succeeded") {

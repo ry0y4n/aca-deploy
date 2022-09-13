@@ -1,5 +1,3 @@
-resource-group: aca-sample-rg
-name: momosuke-container3
 location: "East US"
 subscription-id: "a4deccb1-a1f6-40cb-a923-f55a7d22c32d"
 managed-environment-name: "momosuke-container-env"
