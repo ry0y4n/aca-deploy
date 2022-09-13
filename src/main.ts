@@ -98,7 +98,7 @@ async function main() {
       }
     ]
 
-    let currentManagedEnvironmentId: string = currentAppProperty.managedEnvironmentId
+    let currentManagedEnvironmentId = currentAppProperty.managedEnvironmentId!
     let managedEnvironmentName = currentManagedEnvironmentId.substr(currentManagedEnvironmentId.lastIndexOf('/') + 1);
 
     const containerAppEnvelope: ContainerApp = {
