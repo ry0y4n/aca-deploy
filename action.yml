@@ -11,6 +11,9 @@ inputs:
     name:
         description: 'TBD: Name of the Container Group Instance - this should be aquired with cred automatically'
         required: true
+    image:
+        description: Name of Container Image
+        required: true
     subscription-id:
         description: 'Name of the Subscription ID'
         required: true

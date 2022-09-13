@@ -41,7 +41,7 @@ export class TaskParameters {
         // Required basic parameters
         this._resourceGroup = core.getInput('resource-group', { required: true });
         this._containerAppName = core.getInput('name', { required: true });
-        this._imageName = core.getInput('name', { required: true });
+        this._imageName = core.getInput('image', { required: true });
         this._managedEnvironmentName = core.getInput('managed-environment-name', { required: true });
         this._containersConfigPath = core.getInput('containers-config-path', { required: true});
 
