@@ -102,6 +102,10 @@ export class TaskParameters {
         return this._managedEnvironmentName;
     }
 
+    public get containersConfigPath() {
+        return this._containersConfigPath;
+    }
+
     // Optional Dapr parameters
     public get daprAppPort() {
         return this._daprAppPort;
@@ -143,10 +147,5 @@ export class TaskParameters {
 
     public get scaleRules(){
         return this._scaleRules;
-    }
-
-    // Required container config parameters
-    public get containersConfig() {
-        return this._containersConfig;
     }
 }
