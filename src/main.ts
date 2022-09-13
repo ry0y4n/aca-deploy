@@ -36,33 +36,16 @@ async function main() {
     const parameters = YAML.parse(parametersFile)
 
     // TBD: Remove key when there is key without value
-    const daprConfig: {
-      appPort?: number,
-      appProtocol?: string,
-      enabled: boolean
-    } = {
-      appPort: parameters["dapr-app-port"], 
-      appProtocol: parameters["dapr-app-protocol"], 
-      enabled: parameters["dapr-enabled"]
-    }
-    if (parameters["dapr-app-port"] == undefined) {
-      delete daprConfig.appPort
-    }
-    if (parameters["dapr-app-protocol"] == undefined) {
-      delete daprConfig.appProtocol
-    }
-
-    // TBD: Remove key when there is key without value
     const ingresConfig: {
       external: boolean,
       targetPort?: number,
       traffic?: any[],
       customDomains?: any[]
     } = {
-      external: parameters["ingress-external"], 
-      targetPort: parameters["ingress-target-port"], 
-      traffic: parameters["ingress-traffic-json"], 
-      customDomains: parameters["ingress-custom-domains-json"]
+      external: currentAppProperty.configuration!.ingress!.external, 
+      targetPort: currentAppProperty.configuration!.ingress!.targetPort, 
+      traffic: currentAppProperty.configuration!.ingress!.traffic, 
+      customDomains: currentAppProperty.configuration!.ingress!.customDomains || [] 
     }
     if (parameters["ingress-traffic-json"] == undefined) {
       delete ingresConfig.traffic
