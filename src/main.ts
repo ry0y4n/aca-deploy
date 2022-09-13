@@ -29,6 +29,9 @@ async function main() {
     console.log("Predeployment Steps Started");
     const client = new ContainerAppsAPIClient(credential, taskParams.subscriptionId);
 
+    const result = await client.containerApps.get(taskParams.resourceGroup, taskParams.containerAppName);
+    console.dir(result, {depth: null});
+
     const parametersFile = fs.readFileSync('./src/parameters.yml', 'utf8')
     const parameters = YAML.parse(parametersFile)
 
