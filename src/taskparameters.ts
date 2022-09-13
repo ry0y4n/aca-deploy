@@ -32,9 +32,6 @@ export class TaskParameters {
     private _scaleMinReplicas: number;
     private _scaleRules: any[];
 
-    // Required container config parameters
-    private _containersConfig: any[];
-
 
     private constructor(endpoint: IAuthorizer) {
 
