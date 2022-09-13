@@ -31,16 +31,3 @@ scale-rules-json:
       type: http
       metadata:
         concurrentRequests: "50"
-containers-config-json:
-  - name: simple-hello-world-container
-    image: mcr.microsoft.com/azuredocs/containerapps-helloworld:latest
-    probes:
-      - type: Liveness
-        httpGet:
-          httpHeaders:
-            - name: Custom-Header
-              value: Awesome
-          path: /health
-          port: 8080
-        initialDelaySeconds: 3
-        periodSeconds: 3
