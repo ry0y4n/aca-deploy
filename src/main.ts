@@ -32,9 +32,6 @@ async function main() {
     const currentAppProperty = await client.containerApps.get(taskParams.resourceGroup, taskParams.containerAppName);
     console.dir(currentAppProperty, {depth: null});
 
-    const parametersFile = fs.readFileSync('./src/parameters.yml', 'utf8')
-    const parameters = YAML.parse(parametersFile)
-
     // TBD: Remove key when there is key without value
     const ingresConfig: {
       external: boolean,
