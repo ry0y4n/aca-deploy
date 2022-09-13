@@ -26,13 +26,11 @@ async function main() {
     let credential: TokenCredential = new DefaultAzureCredential()
 
     // TBD: Need to get subscriptionId not from taskParams, but from credential.
-    let subscriptionId = taskParams.subscriptionId
-
     console.log("Predeployment Steps Started");
     const client = new ContainerAppsAPIClient(credential, taskParams.subscriptionId);
 
-    const parameters_file = fs.readFileSync('./src/parameters.yml', 'utf8')
-    const parameters = YAML.parse(parameters_file)
+    const parametersFile = fs.readFileSync('./src/parameters.yml', 'utf8')
+    const parameters = YAML.parse(parametersFile)
 
     // TBD: Remove key when there is key without value
     const daprConfig: {
@@ -90,7 +88,9 @@ async function main() {
     }
 
     // TBD: Find a way to get a value instead of json
-    const containersConfig = parameters["containers-config-json"]
+    // const containersConfig = parameters["containers-config-json"]
+    const containesrConfigFile = fs.readFileSync('./src/parameters.yml', 'utf8')
+    const containersConfig = YAML.parse(containesrConfigFile)
 
     const containerAppEnvelope: ContainerApp = {
       configuration: networkConfig,
