@@ -102,10 +102,6 @@ export class TaskParameters {
         return this._managedEnvironmentName;
     }
 
-    public get containersConfigPath() {
-        return this._containersConfigPath;
-    }
-
     // Optional Dapr parameters
     public get daprAppPort() {
         return this._daprAppPort;
