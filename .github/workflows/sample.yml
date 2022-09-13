@@ -30,28 +30,28 @@ jobs:
         subscription-id: 'a4deccb1-a1f6-40cb-a923-f55a7d22c32d'
         managed-environment-name: 'momosuke-container-env'
         containers-config-path: './src/containers-config.yml'
-        containers-config-json: | 
-          [
-            {
-              "name":"simple-hello-world-container",
-              "image": "mcr.microsoft.com/azuredocs/containerapps-helloworld:latest",
-              "probes":[
-                 {
-                    "type":"Liveness",
-                    "httpGet":{
-                       "path":"/health",
-                       "httpHeaders":[
-                          {
-                             "name":"Custom-Header",
-                             "value":"Awesome"
-                          }
-                       ],
-                       "port":8080
-                    },
-                    "initialDelaySeconds":3,
-                    "periodSeconds":3
-                 }
-              ]
-            }
-          ]
+        # containers-config-json: | 
+        #   [
+        #     {
+        #       "name":"simple-hello-world-container",
+        #       "image": "mcr.microsoft.com/azuredocs/containerapps-helloworld:latest",
+        #       "probes":[
+        #          {
+        #             "type":"Liveness",
+        #             "httpGet":{
+        #                "path":"/health",
+        #                "httpHeaders":[
+        #                   {
+        #                      "name":"Custom-Header",
+        #                      "value":"Awesome"
+        #                   }
+        #                ],
+        #                "port":8080
+        #             },
+        #             "initialDelaySeconds":3,
+        #             "periodSeconds":3
+        #          }
+        #       ]
+        #     }
+        #   ]
 
