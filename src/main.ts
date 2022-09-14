@@ -35,12 +35,12 @@ async function main() {
     // TBD: Remove key when there is key without value
 
     let traffic = [
-      // {
-      //   revisionName: 'yuhattor-container3--qpxyrnn',
-      //   weight: 0,
-      //   latestRevision: false,
-      //   label: 'production'
-      // },
+      {
+        revisionName: 'momosuke-container3--tmp2',
+        weight: 0,
+        latestRevision: false,
+        label: 'production'
+      },
       {
         revisionName: 'momosuke-container3--tmp',
         weight: 100,
@@ -55,7 +55,7 @@ async function main() {
     } = {
       external: currentAppProperty.configuration!.ingress!.external!, 
       targetPort: currentAppProperty.configuration!.ingress!.targetPort!, 
-      traffic: undefined,
+      traffic: traffic,
       customDomains: currentAppProperty.configuration!.ingress!.customDomains! || []
     }
     if (ingresConfig.traffic == undefined) {
@@ -111,7 +111,7 @@ async function main() {
       template: {
         containers: containerConfig,
         scale: scaleConfig,
-        revisionSuffix: "tmp"
+        revisionSuffix: "tmp2"
       }
     };
     console.dir(containerAppEnvelope, {depth: null})
