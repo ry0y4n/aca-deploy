@@ -11,7 +11,8 @@ export class TaskParameters {
     // Required basic parameters
     private _resourceGroup: string;
     private _containerAppName: string;
-    private _imageName: string
+    private _imageName: string;
+    private _commitHash: string;
     private _subscriptionId: string;
 
     // Optional Dapr parameters
@@ -40,6 +41,7 @@ export class TaskParameters {
         this._resourceGroup = core.getInput('resource-group', { required: true });
         this._containerAppName = core.getInput('name', { required: true });
         this._imageName = core.getInput('image', { required: true });
+        this._commitHash = core.getInput('commit-hash', { required: true });
 
         // Optional Dapr parameters
         this._daprAppPort = parseInt(core.getInput('dapr-app-port', { required: false }));
@@ -85,6 +87,10 @@ export class TaskParameters {
 
     public get imageName() {
         return this._imageName;
+    }
+
+    public get commitHash() {
+        return this._commitHash;
     }
 
     public get subscriptionId() {

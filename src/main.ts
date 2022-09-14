@@ -41,7 +41,7 @@ async function main() {
         latestRevision: false
       },
       {
-        revisionName: 'momosuke-container3--tmp5',
+        revisionName: `momosuke-container3--t${taskParams.commitHash}`,
         weight: 0,
         latestRevision: false
       }
@@ -112,7 +112,7 @@ async function main() {
       template: {
         containers: containerConfig,
         scale: scaleConfig,
-        revisionSuffix: "tmp5"
+        revisionSuffix: taskParams.commitHash
       }
     };
     console.dir(containerAppEnvelope, {depth: null})
