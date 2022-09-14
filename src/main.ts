@@ -39,7 +39,7 @@ async function main() {
         revisionName: 'momosuke-container3--tmp3',
         weight: 50,
         latestRevision: false,
-        label: 'non-production'
+        label: 'non-production-dayo'
       },
       {
         revisionName: 'momosuke-container3--tmp',
@@ -84,9 +84,11 @@ async function main() {
     let networkConfig: {
       dapr: object,
       ingress?: object
+      activeRevisionsMode?: string
     } = {
       dapr: currentAppProperty.configuration!.dapr!,
-      ingress: ingresConfig
+      ingress: ingresConfig,
+      activeRevisionsMode: "Multiple"
     }
     if (ingresConfig.external == false || ingresConfig.external == undefined) {
       delete networkConfig.ingress
