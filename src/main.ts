@@ -55,7 +55,7 @@ async function main() {
     } = {
       external: currentAppProperty.configuration!.ingress!.external!, 
       targetPort: currentAppProperty.configuration!.ingress!.targetPort!, 
-      traffic: traffic,
+      traffic: undefined,
       customDomains: currentAppProperty.configuration!.ingress!.customDomains! || []
     }
     if (ingresConfig.traffic == undefined) {
@@ -110,7 +110,8 @@ async function main() {
         `/subscriptions/${taskParams.subscriptionId}/resourceGroups/${taskParams.resourceGroup}/providers/Microsoft.App/managedEnvironments/${managedEnvironmentName}`,
       template: {
         containers: containerConfig,
-        scale: scaleConfig
+        scale: scaleConfig,
+        revisionSuffix: "tmp"
       }
     };
     console.dir(containerAppEnvelope, {depth: null})
