@@ -29,6 +29,7 @@ async function main() {
     const client = new ContainerAppsAPIClient(credential, taskParams.subscriptionId);
 
     const currentAppProperty = await client.containerApps.get(taskParams.resourceGroup, taskParams.containerAppName);
+    console.dir(currentAppProperty, {depth: null})
 
     // TBD: Remove key when there is key without value
 
@@ -122,6 +123,7 @@ async function main() {
     };
 
     console.log("Deployment Step Started");
+    console.dir(containerAppEnvelope, {depth: null})
 
     let containerAppDeploymentResult = await client.containerApps.beginCreateOrUpdateAndWait(
       taskParams.resourceGroup,
