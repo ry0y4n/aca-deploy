@@ -33,6 +33,20 @@ async function main() {
     console.dir(currentAppProperty, {depth: null});
 
     // TBD: Remove key when there is key without value
+
+    let traffic = [
+      // {
+      //   revisionName: 'yuhattor-container3--qpxyrnn',
+      //   weight: 0,
+      //   latestRevision: false,
+      //   label: 'production'
+      // },
+      {
+        revisionName: 'momosuke-container3--tmp',
+        weight: 100,
+        latestRevision: false
+      }
+    ]
     const ingresConfig: {
       external: boolean,
       targetPort?: number,
@@ -41,7 +55,7 @@ async function main() {
     } = {
       external: currentAppProperty.configuration!.ingress!.external!, 
       targetPort: currentAppProperty.configuration!.ingress!.targetPort!, 
-      traffic: currentAppProperty.configuration!.ingress!.traffic!, 
+      traffic: traffic,
       customDomains: currentAppProperty.configuration!.ingress!.customDomains! || []
     }
     if (ingresConfig.traffic == undefined) {
