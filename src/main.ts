@@ -40,8 +40,8 @@ async function main() {
       }
     });
 
-    const traffic: TrafficWeight = currentAppProperty.configuration!.ingress!.traffic!;
-    traffic.push({
+    const traffics: TrafficWeight[] = currentAppProperty.configuration!.ingress!.traffic!;
+    traffics.push({
       revisionName: `${taskParams.containerAppName}--${taskParams.commitHash}`,
       weight: 0,
       latestRevision: false
@@ -66,7 +66,7 @@ async function main() {
     } = {
       external: currentAppProperty.configuration!.ingress!.external!, 
       targetPort: currentAppProperty.configuration!.ingress!.targetPort!, 
-      traffic: traffic,
+      traffic: traffics,
       customDomains: currentAppProperty.configuration!.ingress!.customDomains! || []
     }
     if (ingresConfig.traffic == undefined) {
