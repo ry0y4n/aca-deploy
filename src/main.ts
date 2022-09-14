@@ -36,11 +36,6 @@ async function main() {
 
     let traffic = [
       {
-        revisionName: 'momosuke-container3--tmp4',
-        weight: 100,
-        latestRevision: false
-      },
-      {
         revisionName: `momosuke-container3--${taskParams.commitHash}`,
         weight: 0,
         latestRevision: false
