@@ -36,14 +36,14 @@ async function main() {
 
     let traffic = [
       {
-        revisionName: 'momosuke-container3--tmp2',
-        weight: 0,
+        revisionName: 'momosuke-container3--tmp3',
+        weight: 50,
         latestRevision: false,
-        label: 'production'
+        label: 'non-production'
       },
       {
         revisionName: 'momosuke-container3--tmp',
-        weight: 100,
+        weight: 50,
         latestRevision: false
       }
     ]
@@ -111,7 +111,7 @@ async function main() {
       template: {
         containers: containerConfig,
         scale: scaleConfig,
-        revisionSuffix: "tmp2"
+        revisionSuffix: "tmp3"
       }
     };
     console.dir(containerAppEnvelope, {depth: null})
