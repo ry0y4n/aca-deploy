@@ -48,7 +48,7 @@ async function main() {
 
     const traffic = [
       {
-        revisionName: currentProductionRevision.revisionName,
+        revisionName: currentProductionRevision.revisionName!,
         weight: 100,
         latestRevision: false
       },
