@@ -25,12 +25,10 @@ async function main() {
     var taskParams = TaskParameters.getTaskParams(endpoint);
     let credential: TokenCredential = new DefaultAzureCredential()
 
-    // TBD: Need to get subscriptionId not from taskParams, but from credential.
     console.log("Predeployment Steps Started");
     const client = new ContainerAppsAPIClient(credential, taskParams.subscriptionId);
 
     const currentAppProperty = await client.containerApps.get(taskParams.resourceGroup, taskParams.containerAppName);
-    console.dir(currentAppProperty, {depth: null});
 
     // TBD: Remove key when there is key without value
 
@@ -122,7 +120,6 @@ async function main() {
         revisionSuffix: taskParams.commitHash
       }
     };
-    console.dir(containerAppEnvelope, {depth: null})
 
     console.log("Deployment Step Started");
 
