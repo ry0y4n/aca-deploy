@@ -43,7 +43,7 @@ async function main() {
 
     const traffic = [
       {
-        revisionName: currentProductionRevision.revisionName,
+        revisionName: "momosuke-container3--fd2b54b397e98d658a2f18a35b45a59cfbc193fc",
         weight: 100,
         latestRevision: false
       },
