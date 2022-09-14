@@ -40,24 +40,24 @@ async function main() {
       }
     });
 
-    // const traffics: TrafficWeight[] = currentAppProperty.configuration!.ingress!.traffic!;
-    // traffics.push({
-    //   revisionName: `${taskParams.containerAppName}--${taskParams.commitHash}`,
-    //   weight: 0,
-    //   latestRevision: false
-    // });
-    const traffic = [
-      {
-        revisionName: "momosuke-container3--8e8e9b74b9b7af84b7436eff40d541e784c9d6de",
-        weight: 100,
-        latestRevision: false
-      },
-      {
-        revisionName: `${taskParams.containerAppName}--${taskParams.commitHash}`,
-        weight: 0,
-        latestRevision: false
-      }
-    ]
+    const traffics: TrafficWeight[] = currentAppProperty.configuration!.ingress!.traffic!;
+    traffics.push({
+      revisionName: `${taskParams.containerAppName}--${taskParams.commitHash}`,
+      weight: 0,
+      latestRevision: false
+    });
+    // const traffic = [
+    //   {
+    //     revisionName: currentProductionRevisionName,
+    //     weight: 100,
+    //     latestRevision: false
+    //   },
+    //   {
+    //     revisionName: `${taskParams.containerAppName}--${taskParams.commitHash}`,
+    //     weight: 0,
+    //     latestRevision: false
+    //   }
+    // ]
     const ingresConfig: {
       external: boolean,
       targetPort?: number,
@@ -66,7 +66,7 @@ async function main() {
     } = {
       external: currentAppProperty.configuration!.ingress!.external!, 
       targetPort: currentAppProperty.configuration!.ingress!.targetPort!, 
-      traffic: traffic,
+      traffic: traffics,
       customDomains: currentAppProperty.configuration!.ingress!.customDomains! || []
     }
     if (ingresConfig.traffic == undefined) {
