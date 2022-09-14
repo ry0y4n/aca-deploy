@@ -35,11 +35,11 @@ async function main() {
     // TBD: Remove key when there is key without value
 
     let currentProductionRevision: TrafficWeight;
-    currentAppProperty.configuration!.ingress!.traffic!.forEach((traffic: TrafficWeight) => {
+    for (let traffic of currentAppProperty.configuration!.ingress!.traffic!) {
       if (traffic.weight == 100) {
         currentProductionRevision = traffic;
       }
-    });
+    }
 
     const traffic = [
       {
