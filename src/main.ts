@@ -34,16 +34,16 @@ async function main() {
 
     // TBD: Remove key when there is key without value
 
-    let currentProductionRevision: TrafficWeight;
+    let currentProductionRevisionName: TrafficWeight;
     for (let traffic of currentAppProperty.configuration!.ingress!.traffic!) {
       if (traffic.weight == 100) {
-        currentProductionRevision = traffic;
+        currentProductionRevisionName = traffic.revisionName;
       }
     }
 
     const traffic = [
       {
-        revisionName: currentProductionRevision.revisionName,
+        revisionName: currentProductionRevisionName,
         weight: 100,
         latestRevision: false
       },
