@@ -2,7 +2,7 @@ import * as core from "@actions/core";
 import * as crypto from "crypto";
 import fs from 'fs'
 import YAML from 'yaml'
-import { ContainerAppsAPIClient, ContainerApp } from "@azure/arm-appcontainers";
+import { ContainerAppsAPIClient, ContainerApp, TrafficWeight } from "@azure/arm-appcontainers";
 import { TokenCredential, DefaultAzureCredential } from "@azure/identity";
 import { AuthorizerFactory } from "azure-actions-webclient/AuthorizerFactory";
 import { IAuthorizer } from "azure-actions-webclient/Authorizer/IAuthorizer";
@@ -34,18 +34,16 @@ async function main() {
 
     // TBD: Remove key when there is key without value
 
-    let currentProductionRevision;
-    currentAppProperty.configuration!.ingress!.traffic!.forEach((traffic: any) => {
-      console.dir(traffic, {depth: null})
+    let currentProductionRevision: TrafficWeight;
+    currentAppProperty.configuration!.ingress!.traffic!.forEach((traffic: TrafficWeight) => {
       if (traffic.weight == 100) {
         currentProductionRevision = traffic;
       }
     });
-    console.dir(currentProductionRevision, {depth: null})
 
     const traffic = [
       {
-        revisionName: "momosuke-container3--fd2b54b397e98d658a2f18a35b45a59cfbc193fc",
+        revisionName: currentProductionRevision.revisionName,
         weight: 100,
         latestRevision: false
       },
