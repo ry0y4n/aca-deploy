@@ -41,7 +41,7 @@ async function main() {
         latestRevision: false
       },
       {
-        revisionName: `momosuke-container3--t${taskParams.commitHash}`,
+        revisionName: `momosuke-container3--${taskParams.commitHash}`,
         weight: 0,
         latestRevision: false
       }
