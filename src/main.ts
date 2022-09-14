@@ -137,7 +137,7 @@ async function main() {
       taskParams.containerAppName,
       containerAppEnvelope,
     );
-    console.dir(client.containerAppsRevisions.listRevisions(), {depth:null})
+    console.dir(client.containerAppsRevisions.listRevisions(taskParams.resourceGroup, taskParams.containerAppName), {depth:null})
     if (containerAppDeploymentResult.provisioningState == "Succeeded") {
       console.log("Deployment Succeeded");
 
