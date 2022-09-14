@@ -36,14 +36,8 @@ async function main() {
 
     let traffic = [
       {
-        revisionName: 'momosuke-container3--tmp3',
-        weight: 50,
-        latestRevision: false,
-        label: 'non-production-dayo'
-      },
-      {
         revisionName: 'momosuke-container3--tmp4',
-        weight: 50,
+        weight: 100,
         latestRevision: false
       },
       {
