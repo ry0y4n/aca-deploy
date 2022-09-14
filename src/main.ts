@@ -45,6 +45,11 @@ async function main() {
         revisionName: 'momosuke-container3--tmp4',
         weight: 50,
         latestRevision: false
+      },
+      {
+        revisionName: 'momosuke-container3--tmp5',
+        weight: 0,
+        latestRevision: false
       }
     ]
     const ingresConfig: {
@@ -113,7 +118,7 @@ async function main() {
       template: {
         containers: containerConfig,
         scale: scaleConfig,
-        revisionSuffix: "tmp4"
+        revisionSuffix: "tmp5"
       }
     };
     console.dir(containerAppEnvelope, {depth: null})
