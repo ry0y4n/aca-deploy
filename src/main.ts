@@ -42,7 +42,7 @@ async function main() {
         label: 'non-production-dayo'
       },
       {
-        revisionName: 'momosuke-container3--tmp',
+        revisionName: 'momosuke-container3--tmp4',
         weight: 50,
         latestRevision: false
       }
@@ -113,7 +113,7 @@ async function main() {
       template: {
         containers: containerConfig,
         scale: scaleConfig,
-        revisionSuffix: "tmp3"
+        revisionSuffix: "tmp4"
       }
     };
     console.dir(containerAppEnvelope, {depth: null})
