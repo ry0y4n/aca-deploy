@@ -46,7 +46,6 @@ async function main() {
       weight: 0,
       latestRevision: false
     });
-
     // const traffic = [
     //   {
     //     revisionName: currentProductionRevisionName,
@@ -137,7 +136,7 @@ async function main() {
       taskParams.containerAppName,
       containerAppEnvelope,
     );
-    console.dir(client.containerAppsRevisions.listRevisions(taskParams.resourceGroup, taskParams.containerAppName), {depth:null})
+    
     if (containerAppDeploymentResult.provisioningState == "Succeeded") {
       console.log("Deployment Succeeded");
 
