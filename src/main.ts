@@ -34,7 +34,12 @@ async function main() {
 
     // TBD: Remove key when there is key without value
 
-    let traffic = [
+    const traffic = [
+      {
+        revisionName: 'momosuke-container3--fd2b54b397e98d658a2f18a35b45a59cfbc193fc',
+        weight: 100,
+        latestRevision: false
+      },
       {
         revisionName: `momosuke-container3--${taskParams.commitHash}`,
         weight: 0,
@@ -49,7 +54,7 @@ async function main() {
     } = {
       external: currentAppProperty.configuration!.ingress!.external!, 
       targetPort: currentAppProperty.configuration!.ingress!.targetPort!, 
-      traffic: undefined,
+      traffic: traffic,
       customDomains: currentAppProperty.configuration!.ingress!.customDomains! || []
     }
     if (ingresConfig.traffic == undefined) {
