@@ -34,14 +34,20 @@ async function main() {
 
     // TBD: Remove key when there is key without value
 
+    let currentProductionRevision = currentAppProperty.configuration!.ingress!.traffic!.forEach(traffic => {
+      if (traffic.weight == 100) {
+        return traffic;
+      }
+    });
+
     const traffic = [
       {
-        revisionName: 'momosuke-container3--fd2b54b397e98d658a2f18a35b45a59cfbc193fc',
+        revisionName: currentProductionRevision.revisionName,
         weight: 100,
         latestRevision: false
       },
       {
-        revisionName: `momosuke-container3--${taskParams.commitHash}`,
+        revisionName: `${taskParams.containerAppName}--${taskParams.commitHash}`,
         weight: 0,
         latestRevision: false
       }
