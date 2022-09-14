@@ -34,7 +34,8 @@ async function main() {
 
     // TBD: Remove key when there is key without value
 
-    let currentProductionRevision = currentAppProperty.configuration!.ingress!.traffic!.forEach((traffic: any) => {
+    let currentProductionRevision = (currentAppProperty.configuration!.ingress!.traffic!).forEach((traffic: any) => {
+      console.dir(traffic, {depth: null})
       if (traffic.weight == 100) {
         return traffic;
       }
