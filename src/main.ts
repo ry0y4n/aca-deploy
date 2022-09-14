@@ -41,11 +41,11 @@ async function main() {
     });
 
     const traffics: TrafficWeight[] = currentAppProperty.configuration!.ingress!.traffic!;
-    traffics.push({
-      revisionName: `${taskParams.containerAppName}--${taskParams.commitHash}`,
-      weight: 0,
-      latestRevision: false
-    });
+    // traffics.push({
+    //   revisionName: `${taskParams.containerAppName}--${taskParams.commitHash}`,
+    //   weight: 0,
+    //   latestRevision: false
+    // });
     // const traffic = [
     //   {
     //     revisionName: currentProductionRevisionName,
