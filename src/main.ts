@@ -46,6 +46,7 @@ async function main() {
       weight: 0,
       latestRevision: false
     });
+
     // const traffic = [
     //   {
     //     revisionName: currentProductionRevisionName,
