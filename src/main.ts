@@ -40,18 +40,24 @@ async function main() {
       }
     });
 
-    const traffic = [
-      {
-        revisionName: currentProductionRevisionName,
-        weight: 100,
-        latestRevision: false
-      },
-      {
-        revisionName: `${taskParams.containerAppName}--${taskParams.commitHash}`,
-        weight: 0,
-        latestRevision: false
-      }
-    ]
+    const traffic: TrafficWeight = currentAppProperty.configuration!.ingress!.traffic!;
+    traffic.push({
+      revisionName: `${taskParams.containerAppName}--${taskParams.commitHash}`,
+      weight: 0,
+      latestRevision: false
+    });
+    // const traffic = [
+    //   {
+    //     revisionName: currentProductionRevisionName,
+    //     weight: 100,
+    //     latestRevision: false
+    //   },
+    //   {
+    //     revisionName: `${taskParams.containerAppName}--${taskParams.commitHash}`,
+    //     weight: 0,
+    //     latestRevision: false
+    //   }
+    // ]
     const ingresConfig: {
       external: boolean,
       targetPort?: number,
