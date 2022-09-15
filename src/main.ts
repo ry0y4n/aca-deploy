@@ -33,10 +33,10 @@ async function main() {
 
     // TBD: Remove key when there is key without value
 
-    let traffics: TrafficWeight[] = []
+    let traffics: TrafficWeight[] | undefined = []
     let currentProductionRevisionName: string | undefined = '';
     currentAppProperty.configuration!.ingress!.traffic!.forEach((traffic: TrafficWeight) => {
-      if (traffic.weight > 0) {
+      if (traffic.weight! > 0) {
         // currentProductionRevisionName = traffic.revisionName!;
         traffics.push(traffic);
       }
