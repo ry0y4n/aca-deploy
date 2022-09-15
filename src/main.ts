@@ -18,6 +18,8 @@ async function main() {
   try {
     // Set user agent variable.
     let usrAgentRepo = crypto.createHash('sha256').update(`${process.env.GITHUB_REPOSITORY}`).digest('hex');
+    console.dir(process.env.GITHUB_REPOSITORY, {depth: null})
+    console.dir(usrAgentRepo, {depth: null})
     let actionName = 'DeployAzureContainerApp';
     let userAgentString = (!!prefix ? `${prefix}+` : '') + `GITHUBACTIONS_${actionName}_${usrAgentRepo}`;
     core.exportVariable('AZURE_HTTP_USER_AGENT', userAgentString);
