@@ -34,10 +34,8 @@ async function main() {
     // TBD: Remove key when there is key without value
 
     let traffics = [];
-    let currentProductionRevisionName: string | undefined = '';
     currentAppProperty.configuration!.ingress!.traffic!.forEach((traffic: TrafficWeight) => {
       if (traffic.weight! > 0) {
-        // currentProductionRevisionName = traffic.revisionName!;
         traffics.push(traffic);
       }
     });
@@ -46,25 +44,6 @@ async function main() {
       weight: 0,
       latestRevision: false
     })
-
-    // const traffics: TrafficWeight[] = currentAppProperty.configuration!.ingress!.traffic!;
-    // traffics.push({
-    //   revisionName: `${taskParams.containerAppName}--${taskParams.commitHash}`,
-    //   weight: 0,
-    //   latestRevision: false
-    // });
-    // const traffic = [
-    //   {
-    //     revisionName: currentProductionRevisionName,
-    //     weight: 100,
-    //     latestRevision: false
-    //   },
-    //   {
-    //     revisionName: `${taskParams.containerAppName}--${taskParams.commitHash}`,
-    //     weight: 0,
-    //     latestRevision: false
-    //   }
-    // ]
     
     const ingresConfig: {
       external: boolean,
