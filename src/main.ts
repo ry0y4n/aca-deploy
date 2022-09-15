@@ -33,12 +33,19 @@ async function main() {
 
     // TBD: Remove key when there is key without value
 
+    let traffics: TrafficWeight[] = []
     let currentProductionRevisionName: string | undefined = '';
     currentAppProperty.configuration!.ingress!.traffic!.forEach((traffic: TrafficWeight) => {
-      if (traffic.weight == 100) {
-        currentProductionRevisionName = traffic.revisionName!;
+      if (traffic.weight > 0) {
+        // currentProductionRevisionName = traffic.revisionName!;
+        traffics.push(traffic);
       }
     });
+    traffics.push({
+      revisionName: `${taskParams.containerAppName}--${taskParams.commitHash}`,
+      weight: 0,
+      latestRevision: false
+    })
 
     // const traffics: TrafficWeight[] = currentAppProperty.configuration!.ingress!.traffic!;
     // traffics.push({
@@ -46,18 +53,19 @@ async function main() {
     //   weight: 0,
     //   latestRevision: false
     // });
-    const traffic = [
-      {
-        revisionName: currentProductionRevisionName,
-        weight: 100,
-        latestRevision: false
-      },
-      {
-        revisionName: `${taskParams.containerAppName}--${taskParams.commitHash}`,
-        weight: 0,
-        latestRevision: false
-      }
-    ]
+    // const traffic = [
+    //   {
+    //     revisionName: currentProductionRevisionName,
+    //     weight: 100,
+    //     latestRevision: false
+    //   },
+    //   {
+    //     revisionName: `${taskParams.containerAppName}--${taskParams.commitHash}`,
+    //     weight: 0,
+    //     latestRevision: false
+    //   }
+    // ]
+    
     const ingresConfig: {
       external: boolean,
       targetPort?: number,
@@ -66,7 +74,7 @@ async function main() {
     } = {
       external: currentAppProperty.configuration!.ingress!.external!, 
       targetPort: currentAppProperty.configuration!.ingress!.targetPort!, 
-      traffic: traffic,
+      traffic: traffics,
       customDomains: currentAppProperty.configuration!.ingress!.customDomains! || []
     }
     if (ingresConfig.traffic == undefined) {
@@ -112,9 +120,6 @@ async function main() {
         "image": taskParams.imageName
       }
     ]
-
-    let currentManagedEnvironmentId = currentAppProperty.managedEnvironmentId!
-    let managedEnvironmentName = currentManagedEnvironmentId.substr(currentManagedEnvironmentId.lastIndexOf('/') + 1);
 
     const containerAppEnvelope: ContainerApp = {
       configuration: networkConfig,
