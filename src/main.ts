@@ -1,6 +1,8 @@
 import * as core from "@actions/core";
 import * as crypto from "crypto";
-import { ContainerAppsAPIClient, ContainerApp } from "@azure/arm-appcontainers";
+import fs from 'fs'
+import YAML from 'yaml'
+import { ContainerAppsAPIClient, ContainerApp, TrafficWeight } from "@azure/arm-appcontainers";
 import { TokenCredential, DefaultAzureCredential } from "@azure/identity";
 import { AuthorizerFactory } from "azure-actions-webclient/AuthorizerFactory";
 import { IAuthorizer } from "azure-actions-webclient/Authorizer/IAuthorizer";
@@ -16,6 +18,10 @@ async function main() {
   try {
     // Set user agent variable.
     let usrAgentRepo = crypto.createHash('sha256').update(`${process.env.GITHUB_REPOSITORY}`).digest('hex');
+    console.dir(process.env.GITHUB_REPOSITORY, {depth: null})
+    console.dir(process.env.GITHUB_SHA, {depth: null})
+    console.dir(process.env.GITHUB_REF, {depth: null})
+
     let actionName = 'DeployAzureContainerApp';
     let userAgentString = (!!prefix ? `${prefix}+` : '') + `GITHUBACTIONS_${actionName}_${usrAgentRepo}`;
     core.exportVariable('AZURE_HTTP_USER_AGENT', userAgentString);
@@ -23,89 +29,101 @@ async function main() {
     var taskParams = TaskParameters.getTaskParams(endpoint);
     let credential: TokenCredential = new DefaultAzureCredential()
 
-    // TBD: Need to get subscriptionId not from taskParams, but from credential.
-    let subscriptionId = taskParams.subscriptionId
-
     console.log("Predeployment Steps Started");
     const client = new ContainerAppsAPIClient(credential, taskParams.subscriptionId);
 
-    // TBD: Remove key when there is key without value
-    const daprConfig: {
-      appPort?: number,
-      appProtocol?: string,
-      enabled: boolean
-    } = {
-      appPort: taskParams.daprAppPort, 
-      appProtocol: taskParams.daprAppProtocol, 
-      enabled: taskParams.daprEnabled
-    }
-    if (isNaN(taskParams.daprAppPort)) {
-      delete daprConfig.appPort
-    }
-    if (taskParams.daprAppProtocol == "") {
-      delete daprConfig.appProtocol
-    }
+    const currentAppProperty = await client.containerApps.get(taskParams.resourceGroup, taskParams.containerAppName);
+    console.dir(currentAppProperty, {depth: null})
 
     // TBD: Remove key when there is key without value
+
+    let traffics = [];
+    currentAppProperty.configuration!.ingress!.traffic!.forEach((traffic: TrafficWeight) => {
+      if (traffic.weight! > 0) {
+        traffics.push(traffic);
+      }
+    });
+    traffics.push({
+      revisionName: `${taskParams.containerAppName}--${taskParams.commitHash}`,
+      weight: 0,
+      latestRevision: false
+    })
+    
     const ingresConfig: {
       external: boolean,
       targetPort?: number,
       traffic?: any[],
       customDomains?: any[]
     } = {
-      external: taskParams.ingressExternal, 
-      targetPort: taskParams.ingressTargetPort, 
-      traffic: taskParams.ingressTraffic, 
-      customDomains: taskParams.ingressCustomDomains
+      external: currentAppProperty.configuration!.ingress!.external!, 
+      targetPort: currentAppProperty.configuration!.ingress!.targetPort!, 
+      traffic: traffics,
+      customDomains: currentAppProperty.configuration!.ingress!.customDomains! || []
     }
-    if (taskParams.ingressTraffic.length == 0) {
+    if (ingresConfig.traffic == undefined) {
       delete ingresConfig.traffic
     }
 
-    let scaleRules = taskParams.scaleRules
     // TBD: Remove key when there is key without value
     const scaleConfig: {
       maxReplicas: number,
       minReplicas: number,
       rules: any[]
     } = {
-      maxReplicas: taskParams.scaleMaxReplicas, 
-      minReplicas: taskParams.scaleMinReplicas, 
-      rules: scaleRules 
+      maxReplicas: currentAppProperty.template!.scale!.maxReplicas!, 
+      minReplicas: currentAppProperty.template!.scale!.minReplicas!, 
+      rules: [{
+        "name": 'httpscalingrule',
+        "custom": {
+          "type": 'http',
+          "metadata": {
+            "concurrentRequests": '50'
+          }
+        }
+      }]
     }
 
     let networkConfig: {
       dapr: object,
       ingress?: object
+      activeRevisionsMode?: string
     } = {
-      dapr: daprConfig,
-      ingress: ingresConfig
+      dapr: currentAppProperty.configuration!.dapr!,
+      ingress: ingresConfig,
+      activeRevisionsMode: "Multiple"
     }
-    if (taskParams.ingressExternal == false) {
+    if (ingresConfig.external == false || ingresConfig.external == undefined) {
       delete networkConfig.ingress
     }
 
     // TBD: Find a way to get a value instead of json
-    const containersConfig = taskParams.containersConfig
+    const containerConfig = [
+      {
+        "name": taskParams.containerAppName,
+        "image": taskParams.imageName
+      }
+    ]
 
     const containerAppEnvelope: ContainerApp = {
       configuration: networkConfig,
-      location: taskParams.location,
-      managedEnvironmentId:
-        `/subscriptions/${subscriptionId}/resourceGroups/${taskParams.resourceGroup}/providers/Microsoft.App/managedEnvironments/${taskParams.managedEnvironmentName}`,
+      location: currentAppProperty.location,
+      managedEnvironmentId: currentAppProperty.managedEnvironmentId,
       template: {
-        containers: containersConfig,
-        scale: scaleConfig
+        containers: containerConfig,
+        scale: scaleConfig,
+        revisionSuffix: taskParams.commitHash
       }
     };
 
     console.log("Deployment Step Started");
+    console.dir(containerAppEnvelope, {depth: null})
 
     let containerAppDeploymentResult = await client.containerApps.beginCreateOrUpdateAndWait(
       taskParams.resourceGroup,
       taskParams.containerAppName,
       containerAppEnvelope,
     );
+    
     if (containerAppDeploymentResult.provisioningState == "Succeeded") {
       console.log("Deployment Succeeded");
 
@@ -118,16 +136,6 @@ async function main() {
       core.debug("Deployment Result: "+containerAppDeploymentResult);
       throw Error("Container Deployment Failed"+containerAppDeploymentResult);
     }
-
-    // console.log("identity: " + containerAppDeploymentResult.identity);
-    // console.log("provisioningState: " + containerAppDeploymentResult.provisioningState);
-    // console.log("managedEnvironmentId: " + containerAppDeploymentResult.managedEnvironmentId);
-    // console.log("latestRevisionName: " + containerAppDeploymentResult.latestRevisionName);
-    // console.log("latestRevisionFqdn: " + containerAppDeploymentResult.latestRevisionFqdn);
-    // console.log("customDomainVerificationId: " + containerAppDeploymentResult.customDomainVerificationId);
-    // console.log("configuration: " + containerAppDeploymentResult.configuration);
-    // console.log("template: " + containerAppDeploymentResult.template);
-    // console.log("outboundIpAddresses: " + containerAppDeploymentResult.outboundIpAddresses);
   }
   catch (error: string | any) {
     console.log("Deployment Failed with Error: " + error);
