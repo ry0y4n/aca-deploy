@@ -44,7 +44,7 @@ async function main() {
       }
     });
     traffics.push({
-      revisionName: `${taskParams.containerAppName}--${taskParams.commitHash}`,
+      revisionName: `${taskParams.containerAppName}--${process.env.GITHUB_SHA}`,
       weight: 0,
       latestRevision: false
     })
@@ -111,7 +111,7 @@ async function main() {
       template: {
         containers: containerConfig,
         scale: scaleConfig,
-        revisionSuffix: taskParams.commitHash
+        revisionSuffix: process.env.GITHUB_SHA
       }
     };
 
