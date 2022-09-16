@@ -12,6 +12,7 @@ export class TaskParameters {
     private _resourceGroup: string;
     private _containerAppName: string;
     private _imageName: string;
+    private _revisionNameSuffix: string;
     private _subscriptionId: string;
 
     // Optional Dapr parameters
@@ -38,6 +39,7 @@ export class TaskParameters {
         this._resourceGroup = core.getInput('resource-group', { required: true });
         this._containerAppName = core.getInput('name', { required: true });
         this._imageName = core.getInput('image', { required: true });
+        this._revisionNameSuffix = core.getInput('revision-name-suffic', { required: false });
 
         // Optional Dapr parameters
         this._daprAppPort = parseInt(core.getInput('dapr-app-port', { required: false }));
@@ -77,6 +79,10 @@ export class TaskParameters {
 
     public get imageName() {
         return this._imageName;
+    }
+
+    public get revisionNameSuffix() {
+        return this._revisionNameSuffix;
     }
 
     public get subscriptionId() {
