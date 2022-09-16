@@ -27,4 +27,4 @@ jobs:
         resource-group: aca-sample-rg
         name: momosuke-container3
         image: mcr.microsoft.com/azuredocs/containerapps-helloworld:latest
-        revision-name-suffix: ${{ github.sha }}
+        # revision-name-suffix: ${{ github.sha }}
