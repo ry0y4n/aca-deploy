@@ -1,13 +1,11 @@
-# momosuke ver.
 on: [push, pull_request]
   
-name: Container Deployment Sample Workflow
+name: Samlpe GitHub Action to create new revision of Container App
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-    # checkout the repo
     - name: 'Checkout GitHub Action'
       uses: actions/checkout@master
 
@@ -15,16 +13,25 @@ jobs:
       with:
         node-version: '16.13.0'
         registry-url: 'https://npm.pkg.github.com'
+
     - run: npm install
     - run: tsc
+
+    # local debugging only.
+    # Remove or comment out this step when running on GitHub.
+    # - run: |
+    #     which az || curl -sL https://aka.ms/InstallAzureCLIDeb | bash
+    #     npm install && npm run build
+
     - name: 'Login via Azure CLI'
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-    - name: 'Deploy to Azure Container Apps'
+
+    - name: 'Create a new Container App revision'
       uses: ./
       with:
         resource-group: aca-sample-rg
         name: momosuke-container3
         image: mcr.microsoft.com/azuredocs/containerapps-helloworld:latest
-        # revision-name-suffix: ${{ github.sha }}
+        revision-name-suffix: ${{ github.sha }}

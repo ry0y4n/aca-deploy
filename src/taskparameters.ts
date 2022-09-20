@@ -2,11 +2,8 @@ import * as core from '@actions/core';
 
 import { IAuthorizer } from "azure-actions-webclient/Authorizer/IAuthorizer";
 
-import fs = require('fs');
-  
 export class TaskParameters {
     private static taskparams: TaskParameters;
-    private _endpoint: IAuthorizer;
 
     // Required basic parameters
     private _resourceGroup: string;
@@ -29,10 +26,11 @@ export class TaskParameters {
     private _scaleMaxReplicas: number;
     private _scaleMinReplicas: number;
 
+    // Optional mode parameter
+    private _deactivateRevisionMode: boolean;
 
     private constructor(endpoint: IAuthorizer) {
 
-        this._endpoint = endpoint;
         this._subscriptionId = endpoint.subscriptionID;
 
         // Required basic parameters
@@ -49,26 +47,25 @@ export class TaskParameters {
         // Optional ingress parameters
         this._ingressExternal = core.getInput('ingress-external', { required: false }) == "true";
         this._ingressTargetPort = parseInt(core.getInput('ingress-target-port', { required: false }));
-        let ingressTrafficJsonString = core.getInput('ingress-traffic-json', { required: false});
+        let ingressTrafficJsonString = core.getInput('ingress-traffic-json', { required: false });
         this._ingressTraffic = ingressTrafficJsonString == "" ? [] : JSON.parse(ingressTrafficJsonString)
 
         // Optional scale parameters
         this._scaleMaxReplicas = parseInt(core.getInput('scale-max-replicas', { required: false }));
         this._scaleMinReplicas = parseInt(core.getInput('scale-min-replicas', { required: false }));
+
+        // Optional mode parameter
+        this._deactivateRevisionMode = core.getInput('deactivate-revision-mode', { required: false }) == "true";
     }
 
-    // JSON Validation
-    // TBD: Need to validate that the specific params for ingressTraffic exist in the input json
-    // TBD: Need to validate that the specific params for containersConfig like 'name' and 'image' exist in the input json
-
     public static getTaskParams(endpoint: IAuthorizer) {
-        if(!this.taskparams) {
+        if (!this.taskparams) {
             this.taskparams = new TaskParameters(endpoint);
         }
         return this.taskparams;
     }
 
-    // Required basic parameters
+    // Required base parameters
     public get resourceGroup() {
         return this._resourceGroup;
     }
@@ -93,7 +90,7 @@ export class TaskParameters {
     public get daprAppPort() {
         return this._daprAppPort;
     }
-    
+
     public get daprAppProtocol() {
         return this._daprAppProtocol;
     }
@@ -103,24 +100,28 @@ export class TaskParameters {
     }
 
     // Optional Ingress parameters
-    public get ingressExternal(){
+    public get ingressExternal() {
         return this._ingressExternal;
     }
 
-    public get ingressTargetPort(){
+    public get ingressTargetPort() {
         return this._ingressTargetPort;
     }
 
-    public get ingressTraffic(){
+    public get ingressTraffic() {
         return this._ingressTraffic;
     }
 
     // Optional scale parameters
-    public get scaleMaxReplicas(){
+    public get scaleMaxReplicas() {
         return this._scaleMaxReplicas;
     }
 
-    public get scaleMinReplicas(){
+    public get scaleMinReplicas() {
         return this._scaleMinReplicas;
+    }
+
+    public get deactivateRevisionMode() {
+        return this._deactivateRevisionMode;
     }
 }

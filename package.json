@@ -1,14 +1,16 @@
 {
-  "name": "aca-deploy-action",
-  "version": "0.0.1",
-  "description": "GitHub Action to Deploy to Azure Container Apps",
+  "name": "aca-preview",
+  "version": "0.1.0",
+  "description": "GitHub Action to create a new Container App revision for PR review",
   "main": "lib/main.js",
   "scripts": {
+    "build": "tsc",
+    "act": "act push -P ubuntu-latest=catthehacker/ubuntu:act-22.04 --env-file .act/.env --secret-file .act/.secrets --verbose",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Azure/aca-deploy-action.git"
+    "url": "git+https://github.com/Azure/aca-preview.git"
   },
   "engines": {
     "node": "16.13.0",
@@ -17,18 +19,18 @@
   "author": "Yuki Hattori",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Azure/aca-deploy/issues"
+    "url": "https://github.com/Azure/aca-preview/issues"
   },
-  "homepage": "https://github.com/Azure/aca-deploy#readme",
+  "homepage": "https://github.com/Azure/aca-preview#readme",
   "dependencies": {
     "@actions/core": "^1.9.1",
     "@azure/arm-appcontainers": "^1.1.0",
     "@azure/identity": "^2.1.0",
-    "azure-actions-webclient": "^1.0.10",
-    "yaml": "^2.1.1"
+    "azure-actions-webclient": "^1.0.10"
   },
   "devDependencies": {
     "@types/node": "^13.13.52",
-    "debug": "^4.3.4"
+    "debug": "^4.3.4",
+    "typescript": "^4.8.3"
   }
 }

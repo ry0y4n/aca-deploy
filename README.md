@@ -1,6 +1,4 @@
-# (Experimental) GitHub Action for Azure Container App
-
-> :warning: **NOTE**: This repository has just been created and is not guaranteed to work. It also contains some sample code inside. Therefore, it has not yet been published to the marketplace. Please do not use this one in a production environment. Contributions are welcome. A beta version will be released at the end of September.
+# GitHub Action for Creating Azure Container App Revision
 
 [GitHub Actions](https://help.github.com/en/articles/about-github-actions) provides the flexibility to build automated workflows for the software development lifecycle.
 
@@ -31,10 +29,10 @@ For using any credentials like Azure Service Principal in your workflow, add the
       az ad sp create-for-rbac --name "myApp" --role contributor \
                                --scopes /subscriptions/{subscription-id}/resourceGroups/{resource-group} \
                                --sdk-auth
-      
+
       # Replace {subscription-id}, {resource-group} with the subscription, resource group details of the WebApp
       # The command should output a JSON object similar to this:
-  
+
     {
       "clientId": "<GUID>",
       "clientSecret": "<GUID>",
@@ -71,59 +69,107 @@ SAMPLE WORKFLOW WILL BE HERE
 
 ### Example YAML Snippets
 
-#### Deploying a Container from a public registry
+#### Basic sample to create a revision
 
 ```yaml
-- name: 'Deploy to Azure Container Apps'
-- uses: Azure/aca-deploy@v1
-  with:
-    resource-group: sample-rg
-    name: yuhattor-test
-    location: 'East US'
-    subscription-id: 'a4deccb1-a1f6-40cb-a923-f55a7d22c32d'
-    managed-environment-name: 'my-container-env'
-    dapr-app-port: 3000
-    dapr-app-protocol: 'http'
-    dapr-enabled: true
-    ingress-custom-domains: ""
-    ingress-external: true
-    ingress-target-port: 3000
-    ingress-traffic: ""
-
+on: [push, pull_request]
+name: Preview Deployment
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    env:
+      RESOURCE_GROUP: <YOUR_RESOURCE_GROUP_NAME>
+      CONTAINER_APP_NAME: <YOUR_CONTAINER_APP_NAME>
+      DOCKER_IMAGE_NAME: <YOUR_DOCKER_IMAGE_NAME>
+      # REVISION_NAME_SUFFIX: <YOUR_REVISION_NAME_SUFFIX> # Optional: Default is github commit hash
+    steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@master
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: 'Create a new Container App revision'
+      uses: azure/aca-preview@v0.1
+      with:
+        resource-group: ${{ env.RESOURCE_GROUP }}
+        name: ${{ env.CONTAINER_APP_NAME }}
+        image: ${{ env.DOCKER_IMAGE_NAME }}
 ```
 
-#### Samples Action 2
+##### Using customize suffice instead of git commit hash
 
 ```yaml
-- name: 'Sample yaml pipeline'
-- uses: Azure/aca-deploy@v1
+- name: 'Create a new Container App revision'
+  uses: azure/aca-preview@v0.1
   with:
-
+    resource-group: ${{ env.RESOURCE_GROUP }}
+    name: ${{ env.CONTAINER_APP_NAME }}
+    image: ${{ env.DOCKER_IMAGE_NAME }}
+    revision-name-suffix: ${{ env.REVISION_NAME_SUFFIX }} 
+  with:
 ```
 
-#### Samples Action 3
+#### Create and Deactivate an action
 
 ```yaml
-- name: 'Sample yaml pipeline'
-- uses: Azure/aca-deploy@v1
-  with:
-
+on: [push, pull_request]
+name: Preview Deployment
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    env:
+      RESOURCE_GROUP: <YOUR_RESOURCE_GROUP_NAME>
+      CONTAINER_APP_NAME: <YOUR_CONTAINER_APP_NAME>
+      DOCKER_IMAGE_NAME: <YOUR_DOCKER_IMAGE_NAME>
+    steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@master
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    # Revision Creation
+    - name: 'Create a new Container App revision'
+      uses: azure/aca-preview@v0.1
+      with:
+        resource-group: ${{ env.RESOURCE_GROUP }}
+        name: ${{ env.CONTAINER_APP_NAME }}
+        image: ${{ env.DOCKER_IMAGE_NAME }}
+    # Revision Deactivation
+    - name: Deactivate Preview Deployment
+        if: github.event.action == 'closed'
+        uses: azure/aca-preview@v0.0.1
+        with:
+          deactivate-revision-mode: ture
+          resource-group: ${{ env.RESOURCE_GROUP }}
+          name: ${{ env.CONTAINER_APP_NAME }}
+          image: ${{ env.DOCKER_IMAGE_NAME }}
 ```
 
-#### Samples Action 4
+### How to develop/test this Action
 
-```yaml
-- name: 'Sample yaml pipeline'
-- uses: Azure/aca-deploy@v1
-  with:
+#### Debug with breakpoints on Visual Studio Code
 
-```
+This action can be tried on not only GitHub Actions workflow but also your local PC or GitHub Codespaces.
+
+If you use Visual Studio Code, debugging this action with breakpoints can be used by running [`Launch Program` configuration](./.vscode/launch.json#L10).
+![image](https://user-images.githubusercontent.com/4566555/189843026-61153630-4151-4e6c-8a1e-16163aec0910.png)
+
+#### Check workflow behavior without pushing to GitHub
+
+Also, you can try to run your workflow with this action by executing [`npm run act`](./package.json#L8) on Visual Studio Code Remote-Container extension or GitHub Codespaces without pushing it to GitHub, because a devcontainer image for this repository includes `Docker-in-Docker` enabled devcontainer and `act`.
+
+For more detail, refer to following links.
+
+* `Docker-in-Docker`: <https://github.com/microsoft/vscode-dev-containers/blob/main/script-library/docs/docker-in-docker.md> .
+* `act`: <https://github.com/nektos/act>
 
 ## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.
+the rights to use your contribution. For details, visit <https://cla.opensource.microsoft.com>.
 
 When you submit a pull request, a CLA bot will automatically determine whether you need to provide
 a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions

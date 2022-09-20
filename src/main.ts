@@ -1,7 +1,5 @@
 import * as core from "@actions/core";
 import * as crypto from "crypto";
-import fs from 'fs'
-import YAML from 'yaml'
 import { ContainerAppsAPIClient, ContainerApp, TrafficWeight } from "@azure/arm-appcontainers";
 import { TokenCredential, DefaultAzureCredential } from "@azure/identity";
 import { AuthorizerFactory } from "azure-actions-webclient/AuthorizerFactory";
@@ -13,18 +11,13 @@ var prefix = !!process.env.AZURE_HTTP_USER_AGENT ? `${process.env.AZURE_HTTP_USE
 
 async function main() {
 
-// Please refer to this sample code
-// https://github.com/Azure/azure-sdk-for-js/blob/32c07776aa91c302fb2c90ba65e3bb4668b5a792/sdk/appcontainers/arm-appcontainers/samples-dev/containerAppsCreateOrUpdateSample.ts
   try {
     // Set user agent variable.
     let usrAgentRepo = crypto.createHash('sha256').update(`${process.env.GITHUB_REPOSITORY}`).digest('hex');
-    console.dir(process.env.GITHUB_REPOSITORY, {depth: null})
-    console.dir(process.env.GITHUB_SHA, {depth: null})
-    console.dir(process.env.GITHUB_REF, {depth: null})
-
     let actionName = 'DeployAzureContainerApp';
     let userAgentString = (!!prefix ? `${prefix}+` : '') + `GITHUBACTIONS_${actionName}_${usrAgentRepo}`;
     core.exportVariable('AZURE_HTTP_USER_AGENT', userAgentString);
+
     let endpoint: IAuthorizer = await AuthorizerFactory.getAuthorizer();
     var taskParams = TaskParameters.getTaskParams(endpoint);
     let credential: TokenCredential = new DefaultAzureCredential()
@@ -33,9 +26,17 @@ async function main() {
     const client = new ContainerAppsAPIClient(credential, taskParams.subscriptionId);
 
     const currentAppProperty = await client.containerApps.get(taskParams.resourceGroup, taskParams.containerAppName);
-    console.dir(currentAppProperty, {depth: null})
 
-    // TBD: Remove key when there is key without value
+    if (taskParams.deactivateRevisionMode) {
+      await deactivateRevision({
+        client,
+        resourceGroup: taskParams.resourceGroup,
+        containerAppName: taskParams.containerAppName,
+        traffic: currentAppProperty.configuration?.ingress?.traffic || [],
+        revisionName: `${taskParams.containerAppName}--${taskParams.revisionNameSuffix}`,
+      });
+      return;
+    }
 
     let traffics = [];
     currentAppProperty.configuration!.ingress!.traffic!.forEach((traffic: TrafficWeight) => {
@@ -44,34 +45,30 @@ async function main() {
       }
     });
     traffics.push({
-      revisionName: `${taskParams.containerAppName}--${taskParams.revisionNameSuffix || process.env.GITHUB_SHA}`,
+      revisionName: `${taskParams.containerAppName}--${taskParams.revisionNameSuffix}`,
       weight: 0,
       latestRevision: false
     })
-    
+
     const ingresConfig: {
       external: boolean,
       targetPort?: number,
       traffic?: any[],
       customDomains?: any[]
     } = {
-      external: currentAppProperty.configuration!.ingress!.external!, 
-      targetPort: currentAppProperty.configuration!.ingress!.targetPort!, 
+      external: currentAppProperty.configuration!.ingress!.external!,
+      targetPort: currentAppProperty.configuration!.ingress!.targetPort!,
       traffic: traffics,
       customDomains: currentAppProperty.configuration!.ingress!.customDomains! || []
     }
-    if (ingresConfig.traffic == undefined) {
-      delete ingresConfig.traffic
-    }
 
-    // TBD: Remove key when there is key without value
     const scaleConfig: {
       maxReplicas: number,
       minReplicas: number,
       rules: any[]
     } = {
-      maxReplicas: currentAppProperty.template!.scale!.maxReplicas!, 
-      minReplicas: currentAppProperty.template!.scale!.minReplicas!, 
+      maxReplicas: currentAppProperty.template!.scale!.maxReplicas!,
+      minReplicas: currentAppProperty.template!.scale!.minReplicas!,
       rules: [{
         "name": 'httpscalingrule',
         "custom": {
@@ -85,7 +82,7 @@ async function main() {
 
     let networkConfig: {
       dapr: object,
-      ingress?: object
+      ingress?: object,
       activeRevisionsMode?: string
     } = {
       dapr: currentAppProperty.configuration!.dapr!,
@@ -96,7 +93,6 @@ async function main() {
       delete networkConfig.ingress
     }
 
-    // TBD: Find a way to get a value instead of json
     const containerConfig = [
       {
         "name": taskParams.containerAppName,
@@ -111,7 +107,7 @@ async function main() {
       template: {
         containers: containerConfig,
         scale: scaleConfig,
-        revisionSuffix: taskParams.revisionNameSuffix || process.env.GITHUB_SHA
+        revisionSuffix: taskParams.revisionNameSuffix
       }
     };
 
@@ -123,18 +119,18 @@ async function main() {
       taskParams.containerAppName,
       containerAppEnvelope,
     );
-    
+
     if (containerAppDeploymentResult.provisioningState == "Succeeded") {
       console.log("Deployment Succeeded");
 
       if (ingresConfig.external == true) {
-        let appUrl = "http://"+containerAppDeploymentResult.latestRevisionFqdn+"/"
+        let appUrl = "http://" + containerAppDeploymentResult.latestRevisionFqdn + "/"
         core.setOutput("app-url", appUrl);
-        console.log("Your App has been deployed at: "+appUrl);
+        console.log("Your App has been deployed at: " + appUrl);
       }
     } else {
-      core.debug("Deployment Result: "+containerAppDeploymentResult);
-      throw Error("Container Deployment Failed"+containerAppDeploymentResult);
+      core.debug("Deployment Result: " + containerAppDeploymentResult);
+      throw Error("Container Deployment Failed" + containerAppDeploymentResult);
     }
   }
   catch (error: string | any) {
@@ -145,6 +141,19 @@ async function main() {
     // Reset AZURE_HTTP_USER_AGENT.
     core.exportVariable('AZURE_HTTP_USER_AGENT', prefix);
   }
+}
+
+async function deactivateRevision(params: any) {
+  const { client, resourceGroup, containerAppName, traffic, revisionName } = params;
+  const targetRevisions = traffic.filter((r: any) => r.revisionName === revisionName);
+
+  // Check traffic weight of the target revision
+  if (targetRevisions.length > 0 && targetRevisions.reduce((prev: number, curr: any) => prev + curr.weight, 0) !== 0)
+    throw new Error(`Traffic weight of revision ${revisionName} under container app ${containerAppName} is not 0. Set 0 to the traffic weight of the revision before deactivation.`);
+
+  console.log("Deactivation Step Started");
+  await client.containerAppsRevisions.deactivateRevision(resourceGroup, containerAppName, revisionName);
+  console.log("Deactivation Step Succeeded");
 }
 
 main();
